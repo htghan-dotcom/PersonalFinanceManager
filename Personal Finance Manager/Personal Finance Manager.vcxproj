@@ -123,10 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Income.cpp" />
+    <ClCompile Include="IncomeSource.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Wallet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Income.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
