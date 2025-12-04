@@ -1,14 +1,14 @@
 #pragma once
-
+#include <string>
 struct Wallet {
 	string ID;
 	string name;
 	double balance;
-	Wallet* next;
+	
 };
 
-void addWallet(Wallet*& arr, int& walletCount,  Wallet& a);
-void editWallet(Wallet* arr, int walletCount, int walletID, string newName);
-void deleteWallet(Wallet*& arr, int& walletCount, int walletID);
-int findWalletIndexByID(Wallet* arr, int walletCount, int id);
-void updateWalletBalance(Wallet* arr, int walletCount, int walletID, double amount);
+int findWalletIndexByID(Wallet* wallets, int walletCount, string id);
+void addWallet(Wallet* wallets, int walletCount,Wallet NewWallet);
+void editWallet(Wallet* wallets, int walletCount, string edit);
+void deleteWallet(Wallet** wallets, int* walletCount);
+void updateWalletBalance(Wallet* wallets, int walletCount, int walletID, double amount);

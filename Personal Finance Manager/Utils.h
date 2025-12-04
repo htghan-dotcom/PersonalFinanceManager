@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include <iostream>
 struct Date {
 	int day;
@@ -8,6 +8,6 @@ struct Date {
 
 void readDate(Date& d);
 void printDate(const Date d);
-int compareDate(Date a, Date b); //a s?m h?n b l‡ 1,-1 l‡ ng??c l?i v‡ a tr˘ng b l‡ 1
+int compareDate(Date a, Date b); //a s·ªõm h∆°n l√† 1,b s·ªõm h∆°n l√† -1,b·∫±ng l√† 0
 bool isDateInRange(Date d, Date from, Date to);
 bool isSameMonthYear(Date d, int m, int y);
