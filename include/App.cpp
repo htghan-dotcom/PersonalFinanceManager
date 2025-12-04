@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 
 #include "App.h"
 
@@ -7,18 +8,18 @@ using namespace std;
 
 void pauseScreen() {
     cout << "\n(Press Enter to continue...)";
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
-void run() {
+void App::run() {
     while (true) {
         showDashboard();
         handleChoice();
     }
 }
 
-void showDashboard() {
+void App::showDashboard() {
     cout << "\n====================\n";
     cout << "       PERSONAL FINANCE MANAGER       \n";
     cout << "======================\n\n";
@@ -35,19 +36,20 @@ void showDashboard() {
     cout << "0. Exit\n";
 }
 
-void handleChoice() {
+void App::handleChoice() {
     cout << "\nEnter option: ";
     int choice;
     cin >> choice;
 
-    if (!cin) {
+    if (cin.fail()) {
         cin.clear();
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input! Please enter a number." << endl;
+        pauseScreen();
         return;
     }
 
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     switch (choice) {
         case 1: addIncomeMenu(); break;
@@ -63,29 +65,64 @@ void handleChoice() {
     }
 }
 
-void addIncomeMenu() {
+void App::addIncomeMenu() {
     cout << "ADD INCOME" << endl;
     // add later
     pauseScreen();
 }
 
-void addExpenseMenu() {
+void App::addExpenseMenu() {
     cout << "ADD EXPENSE" << endl;
     // add later
     pauseScreen();
 }
 
-void showWalletMenu() {
-    cout << "MANAGE WALLETS" << endl;
-    cout << "1. Add Wallet\n";
-    cout << "2. Rename Wallet\n";
-    cout << "3. Delete Wallet\n";
-    cout << "4. Show Wallets\n";
-    cout << "0. Back\n";
-    pauseScreen();
+void App::showWalletMenu() {
+    while (true) {
+        cout << "MANAGE WALLETS" << endl;
+        cout << "1. Add Wallet\n";
+        cout << "2. Rename Wallet\n";
+        cout << "3. Delete Wallet\n";
+        cout << "4. Show Wallets\n";
+        cout << "0. Back\n";
+        
+        cout << "Choose option: ";
+        int c;
+        cin >> c;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input\n";
+            continue;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (c == 0) break;
+        switch (c) {
+            case 1:
+                cout << "Add Wallet\n";
+                pauseScreen();
+                break;
+            case 2:
+                cout << "Rename Wallet\n";
+                pauseScreen();
+                break;
+            case 3:
+                cout << "Delete Wallet\n";
+                pauseScreen();
+                break;
+            case 4:
+                cout << "Show Wallets\n";
+                pauseScreen();
+                break;
+            default:
+                cout << "Invalid option\n";
+                pauseScreen();
+        }
+    }
 }
 
-void manageCategoriesMenu() {
+void App::manageCategoriesMenu() {
     cout << "\n=== MANAGE CATEGORIES ===\n";
     cout << "1. Add Category\n";
     cout << "2. Edit Category\n";
@@ -95,7 +132,7 @@ void manageCategoriesMenu() {
     pauseScreen();
 }
 
-void recurringMenu() {
+void App::recurringMenu() {
     cout << "\n=== RECURRING TRANSACTIONS ===\n";
     cout << "1. Add Recurring\n";
     cout << "2. Remove Recurring\n";
@@ -104,7 +141,7 @@ void recurringMenu() {
     pauseScreen();
 }
 
-void statisticsMenu() {
+void App::statisticsMenu() {
     cout << "\n=== STATISTICS ===\n";
     cout << "1. By Date Range\n";
     cout << "2. By Category\n";
