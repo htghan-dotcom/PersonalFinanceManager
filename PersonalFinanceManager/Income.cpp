@@ -227,19 +227,19 @@ void filterIncomeByDateRange(Date from, Date to) {
     }
 }
 
-void filterIncomeByWallet(int walletID, Date from, Date to) {
+void filterIncomeByWallet(string walletID, Date from, Date to) {
     cout << "\n---LOC GIAO DICH THU THEO VI---\n";
     if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
         cout << "Khong co giao dich de loc.\n";
         return;
 
-    string walletIDStr = to_string(walletID);
+
 
     if (compareDate(from, to) > 0) std::swap(from, to);
 
     int found = 0;
     for (int i = 0; i < g_incomeTransCount; ++i) {
-        if (g_incomeTrans[i].walletID == walletIDStr &&
+        if (g_incomeTrans[i].walletID == walletID &&
             isDateInRange(g_incomeTrans[i].date, from, to)) {
             printIncomeTransaction(g_incomeTrans[i]);
             ++found;
@@ -247,6 +247,6 @@ void filterIncomeByWallet(int walletID, Date from, Date to) {
     }
 
     if (found == 0) {
-        cout << "Khong co giao dich cho Vi ID[" << walletIDStr << "] trong khoang ngay yeu cau.\n";
+        cout << "Khong co giao dich cho Vi ID[" << walletID << "] trong khoang ngay yeu cau.\n";
     }
 }

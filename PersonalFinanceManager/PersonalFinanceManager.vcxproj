@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Expense.h" />
     <ClInclude Include="Income.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Expense.cpp" />
     <ClCompile Include="Income.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Wallet.cpp" />

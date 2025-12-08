@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+
+using namespace std;
+
 struct Wallet {
 	string ID;
 	string name;
