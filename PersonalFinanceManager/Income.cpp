@@ -1,8 +1,12 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
+#include <iomanip>
 #include "Income.h"
 
 using namespace std;
+
+static IncomeTransaction* g_incomeTrans = nullptr;
+static int g_incomeTransCount = 0;
 
 int findIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount, string id) {
 	int index = -1;
@@ -125,9 +129,124 @@ void deleteIncomeSource(IncomeSource*& sources, int& count) {
 }
 
 
-void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, IncomeSource* sources, int sourceCount) {
+void addIncomeTransaction(IncomeTransaction*& trans, int& transCount,Wallet* wallets, int walletCount,IncomeSource* sources, int sourceCount) {
+    cout << "\n---THEM GIAO DICH THU---\n";
+    IncomeTransaction t;
+    cout << "Nhap ID giao dich: ";
+    getline(cin, t.ID);
 
+   
+    cout << "Nhap ngay (dd mm yyyy): ";
+    cin >> t.date.day >> t.date.month >> t.date.year;
+
+  
+    cout << "Nhap so tien (+): ";
+    cin >> t.amount;
+    if (t.amount <= 0) {
+        cout << "LOI: so tien phai > 0.\n";
+      
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+ 
+    cout << "Nhap ID Vi nhan tien: ";
+    getline(cin, t.walletID);
+    int wIdx = findWalletIndexByID(wallets, walletCount, t.walletID);
+    if (wIdx == -1) {
+        cout << "LOI: Khong tim thay Vi ID[" << t.walletID << "].\n";
+        return;
+    }
+
+    cout << "Nhap ID Nguon Thu: ";
+    getline(cin, t.sourceID);
+    int sIdx = findIncomeSourceIndexByID(sources, sourceCount, t.sourceID);
+    if (sIdx == -1) {
+        cout << "LOI: Khong tim thay Nguon Thu ID[" << t.sourceID << "].\n";
+        return;
+    }
+
+
+    cout << "Nhap ghi chu (co the de trong): ";
+    getline(cin, t.note);
+
+    
+    IncomeTransaction* newArr = new IncomeTransaction[transCount + 1];
+    for (int i = 0; i < transCount; ++i) newArr[i] = trans[i];
+    newArr[transCount] = t;
+
+   
+    delete[] trans;            
+    trans = newArr;
+    ++transCount;
+
+   
+    wallets[wIdx].balance += t.amount;
+
+   
+    g_incomeTrans = trans;
+    g_incomeTransCount = transCount;
+
+    cout << "Da them giao dich thu va cap nhat so du Vi ["
+        << wallets[wIdx].ID << "] thanh cong.\n";
 }
-void printIncomeTransaction(IncomeTransaction t);
-void filterIncomeByDateRange(Date from, Date to);
-void filterIncomeByWallet(int walletID, Date from, Date to);
+
+void printIncomeTransaction(IncomeTransaction t) {
+    cout << "----------------------------------------\n";
+    cout << "ID GD : " << t.ID << "\n";
+    cout << "Ngay  : "; printDate(t.date); cout << "\n";
+    cout << fixed << setprecision(2);
+    cout << "So tien: +" << t.amount << "\n";
+    cout << "Vi     : " << t.walletID << "\n";
+    cout << "Nguon  : " << t.sourceID << "\n";
+    if (!t.note.empty()) cout << "Ghi chu: " << t.note << "\n";
+    cout << "----------------------------------------\n";
+}
+
+void filterIncomeByDateRange(Date from, Date to) {
+    cout << "\n---LOC GIAO DICH THU THEO KHOANG NGAY---\n";
+    if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
+        cout << "Khong co giao dich de loc.\n";
+        return;
+    }
+
+    if (compareDate(from, to) > 0) std::swap(from, to);
+
+    int found = 0;
+    for (int i = 0; i < g_incomeTransCount; ++i) {
+        if (isDateInRange(g_incomeTrans[i].date, from, to)) {
+            printIncomeTransaction(g_incomeTrans[i]);
+            ++found;
+        }
+    }
+
+    if (found == 0) {
+        cout << "Khong co giao dich trong khoang ngay yeu cau.\n";
+    }
+}
+
+void filterIncomeByWallet(int walletID, Date from, Date to) {
+    cout << "\n---LOC GIAO DICH THU THEO VI---\n";
+    if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
+        cout << "Khong co giao dich de loc.\n";
+        return;
+
+    string walletIDStr = to_string(walletID);
+
+    if (compareDate(from, to) > 0) std::swap(from, to);
+
+    int found = 0;
+    for (int i = 0; i < g_incomeTransCount; ++i) {
+        if (g_incomeTrans[i].walletID == walletIDStr &&
+            isDateInRange(g_incomeTrans[i].date, from, to)) {
+            printIncomeTransaction(g_incomeTrans[i]);
+            ++found;
+        }
+    }
+
+    if (found == 0) {
+        cout << "Khong co giao dich cho Vi ID[" << walletIDStr << "] trong khoang ngay yeu cau.\n";
+    }
+}
