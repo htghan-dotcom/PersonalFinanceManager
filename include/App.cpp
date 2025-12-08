@@ -23,6 +23,28 @@ int readInt (const string &prompt) {
     }
 }
 
+double readDouble (const string &prompt) {
+    double x;
+    while (true) {
+        cout << prompt;
+        if (cin >> x) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return x;
+        } else {
+            cout << "Invalid input. Try again.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+string readLine(const string &prompt) {
+    cout << prompt;
+    string s;
+    getline(cin, s);
+    return s;
+}
+
 void pauseScreen() {
     cout << "\n(Press Enter to continue...)";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
