@@ -97,9 +97,6 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
  
     cout << "Nhap ID giao dich (bo trong se tu sinh): ";
     getline(cin, t.ID);
-    if (t.ID.empty()) {
-        t.ID = "EXP" + to_string(transCount + 1);
-    }
 
 
     cout << "Nhap ngay (dd mm yyyy): ";
