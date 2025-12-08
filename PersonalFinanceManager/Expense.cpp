@@ -11,10 +11,6 @@ ExpenseTransaction* gExpTrans = nullptr;
 int gExpTransCount = 0;
 
 
-static bool isDateInRange(const Date& d, const Date& from, const Date& to) {
-    return compareDate(from, d) <= 0 && compareDate(d, to) <= 0;
-}
-
 int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
     for (int i = 0; i < count; ++i) {
         if (cate[i].id == id) return i;
