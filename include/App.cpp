@@ -6,6 +6,23 @@
 
 using namespace std;
 
+// Helper function
+
+int readInt (const string &prompt) {
+    int x;
+    while (true) {
+        cout << prompt;
+        if (cin >> x) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return x;
+        } else {
+            cout << "Invalid input. Try again.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
 void pauseScreen() {
     cout << "\n(Press Enter to continue...)";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
