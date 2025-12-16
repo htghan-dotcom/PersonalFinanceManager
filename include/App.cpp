@@ -3,6 +3,7 @@
 #include <limits>
 
 #include "App.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -51,6 +52,11 @@ void pauseScreen() {
     cin.get();
 }
 
+App::App() {
+    data.loadAll();
+    applyRecurringTransactions();
+}
+
 void App::run() {
     while (true) {
         showDashboard();
@@ -63,8 +69,8 @@ void App::showDashboard() {
     cout << "       PERSONAL FINANCE MANAGER       \n";
     cout << "======================\n\n";
 
-    cout << "Total balance: \n";
-    cout << "Wallet balance: \n";
+    cout << "Total balance: " << data.getTotalBalance() << "\n";
+    cout << "Wallet balance: " << data.getWalletCount() << "\n\n";
 
     cout << "1. Add Income\n";
     cout << "2. Add expense\n";
@@ -76,19 +82,7 @@ void App::showDashboard() {
 }
 
 void App::handleChoice() {
-    cout << "\nEnter option: ";
-    int choice;
-    cin >> choice;
-
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input! Please enter a number." << endl;
-        pauseScreen();
-        return;
-    }
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    int choice = readInt("Enter option: ");
 
     switch (choice) {
         case 1: addIncomeMenu(); break;
@@ -97,7 +91,13 @@ void App::handleChoice() {
         case 4: manageCategoriesMenu(); break;
         case 5: recurringMenu(); break;
         case 6: statisticsMenu(); break;
-        case 0: cout << "Exiting..." << endl; exit(0);
+
+        case 0: {
+            cout << "Saving data...\n";
+            data.saveAll();
+            cout << "Exiting...\n";
+            exit(0);
+        }
         default:
             cout << "Invalid choice! Try again" << endl;
             pauseScreen();
@@ -105,8 +105,17 @@ void App::handleChoice() {
 }
 
 void App::addIncomeMenu() {
-    cout << "ADD INCOME" << endl;
-    // add later
+    cout << "\n=== ADD INCOME ===\n";
+    
+    double amount = readDouble("Amount: ");
+    string desc = readLine("Description: ");
+    int sourceID = readInt("Income source ID: ");
+    int walletID = readInt("Wallet ID: ");
+    Date d = inputDate("Date (dd mm yyyy): ");
+
+    data.addIncomeTransaction(amount, desc, sourceID, walletID, d);
+    
+    cout << "Income added successfully.\n";
     pauseScreen();
 }
 
@@ -125,18 +134,8 @@ void App::showWalletMenu() {
         cout << "4. Show Wallets\n";
         cout << "0. Back\n";
         
-        cout << "Choose option: ";
-        int c;
-        cin >> c;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input\n";
-            continue;
-        }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        int c = readInt ("Choose option: ");
 
-        if (c == 0) break;
         switch (c) {
             case 1:
                 cout << "Add Wallet\n";
@@ -154,6 +153,9 @@ void App::showWalletMenu() {
                 cout << "Show Wallets\n";
                 pauseScreen();
                 break;
+            case 0: 
+                cout << "Exiting!...\n";
+                return;
             default:
                 cout << "Invalid option\n";
                 pauseScreen();
