@@ -12,7 +12,6 @@ struct ExpenseCategory {
 };
 
 struct ExpenseTransaction {
-    string ID;
     Date date;
     string sourceID;
     string walletID;
