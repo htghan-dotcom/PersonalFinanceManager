@@ -22,9 +22,10 @@ struct ExpenseTransaction {
 
 int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id);
 int askAndFindExpenseCategoryIndexByID(ExpenseCategory* cate, int count);
+bool isValidExpenseID(const string& id);
 void addExpenseCategory(ExpenseCategory*& cate, int& count);
 void editExpenseCategory(ExpenseCategory* cate, int count);
-void deleteIncomeSource(ExpenseCategory*& cate, int& count);
+void deleteExpenseSource(ExpenseCategory*& cate, int& count);
 
 
 void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, ExpenseCategory* sources, int CategoryCount);
