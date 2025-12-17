@@ -101,9 +101,6 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
 {
     ExpenseTransaction t;
 
-    cout << "Enter transaction ID (leave empty to auto-generate): ";
-    getline(cin, t.ID);
-
     cout << "Enter date (dd mm yyyy): ";
     cin >> t.date.day >> t.date.month >> t.date.year;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -154,7 +151,6 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
 
 void printExpenseTransaction(ExpenseTransaction t) {
     cout << "ExpenseTransaction {"
-        << " ID=" << t.ID
         << ", date=" << t.date.day << "/" << t.date.month << "/" << t.date.year
         << ", sourceID=" << t.sourceID
         << ", walletID=" << t.walletID
