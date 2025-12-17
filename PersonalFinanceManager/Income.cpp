@@ -1,4 +1,4 @@
-﻿
+
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -28,13 +28,28 @@ int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount) {
     return findIncomeSourceIndexByID(sources, IncomeCount, id);
 }
 
+
+bool isValidIncomeID(const string& id) {
+    if (id.size() != 5) return false;
+    if (id[0] != 'I') return false;
+    for (int i = 1; i < 5; ++i) {
+        if (!isdigit((id[i]))) return false;
+    }
+    return true;
+}
+
+
 void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
     cout << "\n---ADD INCOME SOURCE---\n";
     IncomeSource newSource;
     cout << "Please enter the details of the new income source:\n";
 
-    cout << "Enter ID: ";
+    cout << "Enter ID(the format should be Iabcd with a,b,c,d is a number): ";
     cin >> newSource.ID;
+    if (!isValidIncomeID(newSource.ID)) {
+        cout << "ERROR: Invalid ID format. Required: 'I' followed by 4 digits (e.g., I0001). Please try again.\n";
+        return;
+    }
 
     cout << "Enter name: ";
     getline(cin, newSource.name);
@@ -143,7 +158,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
     if (t.amount <= 0) {
         cout << "ERROR: Amount must be > 0.\n";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return;
+        return;  
     }
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
