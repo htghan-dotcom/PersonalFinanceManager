@@ -6,12 +6,12 @@
 
 using namespace std;
 
-struct IncomeSource {
-    string ID;
-    string name;
+struct ExpenseCategory {
+	string id;
+	string name;
 };
 
-struct IncomeTransaction {
+struct ExpenseTransaction {
     string ID;
     Date date;
     string sourceID;
@@ -20,15 +20,14 @@ struct IncomeTransaction {
     string note;
 };
 
+int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id);
+int askAndFindExpenseCategoryIndexByID(ExpenseCategory* cate, int count);
+void addExpenseCategory(ExpenseCategory*& cate, int& count);
+void editExpenseCategory(ExpenseCategory* cate, int count);
+void deleteExpenseSource(ExpenseCategory*& cate, int& count);
 
-int findIncomeSourceIndexByID(IncomeSource* sources, int count, string id);
-int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int count);
-void addIncomeSource(IncomeSource*& sources, int& count);
-void editIncomeSource(IncomeSource* sources, int count);
-void deleteIncomeSource(IncomeSource*& sources, int& count);
 
-
-void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, IncomeSource* sources, int sourceCount);
-void printIncomeTransaction(IncomeTransaction t);
-void filterIncomeByDateRange(Date from, Date to);
-void filterIncomeByWallet(int walletID, Date from, Date to);
+void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, ExpenseCategory* sources, int CategoryCount);
+void printExpenseTransaction(ExpenseTransaction t);
+void filterExpenseByDateRange(Date from, Date to);
+void filterExpenseByWallet(int walletID, Date from, Date to);
