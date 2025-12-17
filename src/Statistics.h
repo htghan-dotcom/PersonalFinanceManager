@@ -12,8 +12,8 @@ public:
         Date from, Date to
     );
 
-    static void walletBreakDown(
-        Wallet* wallet, int WalletCount,
+    static void walletBreakdown(
+        const std::string& walletID,
         IncomeTransaction* incomes, int incomeCount,
         ExpenseTransaction* expenses, int expenseCount,
         Date from, Date to
@@ -25,5 +25,11 @@ public:
         int year
     );
 
-
+    static void annualSourceCategoryBreakdown(
+        IncomeSource* incomeSources, int incomeSourceCount,
+        IncomeTransaction* incomeTransactions, int incomeTransactionCount,
+        ExpenseCategory* expenseCategories, int expenseCategoryCount,
+        ExpenseTransaction* expenseTransactions, int expenseTransactionCount,
+        int year
+    );
 };

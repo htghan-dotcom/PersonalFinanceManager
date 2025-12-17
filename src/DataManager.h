@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 
 #include "Utils.h"
@@ -30,6 +31,20 @@ public:
     void addIncomeTransactionUI();
     void addExpenseTransactionUI();
 
+    void applyRecurringTransactions();
+    void addRecurringTransactionUI();
+    void listRecurringTransactionsUI();
+    void deleteRecurringTransactionUI();
+
+    void showTimeBasedStatisticsUI();
+    void showWalletBreakdownStatisticsUI();
+    void showAnnualOverviewStatisticsUI();
+    void showAnnualBreakdownStatisticsUI();
+
+    double getTotalBalance() const;
+    int getWalletCount() const;
+    void showWalletBalances() const;
+
     Wallet* wallets = nullptr;
     int walletCount = 0;
 
@@ -48,7 +63,9 @@ public:
     RecurringTransaction* recurringList = nullptr;
     int recurringCount = 0;
 
-    void applyRecurringTransactions();
+    std::string getWalletName(const std::string& id) const;
+    std::string getIncomeSourceName(const std::string& id) const;
+    std::string getExpenseCategoryName(const std::string& id) const;
 
 private:
     void loadWallets();

@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
+
 #include "Utils.h"
+#include "Wallet.h"
+#include "Income.h"
+#include "Expense.h"
 
 struct RecurringTransaction {
     bool isIncome;

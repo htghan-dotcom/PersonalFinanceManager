@@ -4,47 +4,9 @@
 
 #include "App.h"
 #include "Utils.h"
+#include "DataManager.h"
 
 using namespace std;
-
-// Helper function
-
-int readInt (const string &prompt) {
-    int x;
-    while (true) {
-        cout << prompt;
-        if (cin >> x) {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return x;
-        } else {
-            cout << "Invalid input. Try again.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    }
-}
-
-double readDouble (const string &prompt) {
-    double x;
-    while (true) {
-        cout << prompt;
-        if (cin >> x) {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return x;
-        } else {
-            cout << "Invalid input. Try again.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    }
-}
-
-string readLine(const string &prompt) {
-    cout << prompt;
-    string s;
-    getline(cin, s);
-    return s;
-}
 
 void pauseScreen() {
     cout << "\n(Press Enter to continue...)";
@@ -54,7 +16,7 @@ void pauseScreen() {
 
 App::App() {
     data.loadAll();
-    applyRecurringTransactions();
+    data.applyRecurringTransactions();
 }
 
 void App::run() {
@@ -70,8 +32,10 @@ void App::showDashboard() {
     cout << "======================\n\n";
 
     cout << "Total balance: " << data.getTotalBalance() << "\n";
-    cout << "Wallet balance: " << data.getWalletCount() << "\n\n";
+    cout << "Wallet balance:\n";
+    data.showWalletBalances();
 
+    cout << "\n\n--- NAVIGATION MENU ---\n";
     cout << "1. Add Income\n";
     cout << "2. Add expense\n";
     cout << "3. Manage Wallets\n";
@@ -106,28 +70,21 @@ void App::handleChoice() {
 
 void App::addIncomeMenu() {
     cout << "\n=== ADD INCOME ===\n";
-    
-    double amount = readDouble("Amount: ");
-    string desc = readLine("Description: ");
-    int sourceID = readInt("Income source ID: ");
-    int walletID = readInt("Wallet ID: ");
-    Date d = inputDate("Date (dd mm yyyy): ");
-
-    data.addIncomeTransaction(amount, desc, sourceID, walletID, d);
-    
+    data.addIncomeTransactionUI(); 
     cout << "Income added successfully.\n";
     pauseScreen();
 }
 
 void App::addExpenseMenu() {
     cout << "ADD EXPENSE" << endl;
-    // add later
+    data.addExpenseTransactionUI();
+    cout << "Expense added successfully.\n";
     pauseScreen();
 }
 
 void App::showWalletMenu() {
     while (true) {
-        cout << "MANAGE WALLETS" << endl;
+        cout << "\n=== MANAGE WALLETS ===\n" << endl;
         cout << "1. Add Wallet\n";
         cout << "2. Rename Wallet\n";
         cout << "3. Delete Wallet\n";
@@ -137,25 +94,11 @@ void App::showWalletMenu() {
         int c = readInt ("Choose option: ");
 
         switch (c) {
-            case 1:
-                cout << "Add Wallet\n";
-                pauseScreen();
-                break;
-            case 2:
-                cout << "Rename Wallet\n";
-                pauseScreen();
-                break;
-            case 3:
-                cout << "Delete Wallet\n";
-                pauseScreen();
-                break;
-            case 4:
-                cout << "Show Wallets\n";
-                pauseScreen();
-                break;
-            case 0: 
-                cout << "Exiting!...\n";
-                return;
+            case 1: data.addWalletUI(); pauseScreen(); break;
+            case 2: data.editWalletUI(); pauseScreen(); break;
+            case 3: data.deleteWalletUI(); pauseScreen(); break;
+            case 4: data.showWallets(); pauseScreen(); break;
+            case 0: cout << "Exiting!"; return;
             default:
                 cout << "Invalid option\n";
                 pauseScreen();
@@ -164,30 +107,80 @@ void App::showWalletMenu() {
 }
 
 void App::manageCategoriesMenu() {
-    cout << "\n=== MANAGE CATEGORIES ===\n";
-    cout << "1. Add Category\n";
-    cout << "2. Edit Category\n";
-    cout << "3. Delete Category\n";
-    cout << "4. Show Categories\n";
-    cout << "0. Back\n";
-    pauseScreen();
+     while (true) {
+        cout << "\n=== MANAGE CATEGORIES & SOURCES ===\n";
+        cout << "1. Add Income Source\n";
+        cout << "2. Edit Income Source\n";
+        cout << "3. Delete Income Source\n";
+        cout << "4. Show Income Sources\n";
+        cout << "--- --- ---\n";
+        cout << "5. Add Expense Category\n";
+        cout << "6. Edit Expense Category\n";
+        cout << "7. Delete Expense Category\n";
+        cout << "8. Show Expense Categories\n";
+        cout << "0. Back\n";
+        
+        int c = readInt ("Choose option: ");
+
+        switch (c) {
+            case 1: data.addIncomeSourceUI(); pauseScreen(); break;
+            case 2: data.editIncomeSourceUI(); pauseScreen(); break;
+            case 3: data.deleteIncomeSourceUI(); pauseScreen(); break;
+            case 4: data.showIncomeSources(); pauseScreen(); break;
+            case 5: data.addExpenseCategoryUI(); pauseScreen(); break;
+            case 6: data.editExpenseCategoryUI(); pauseScreen(); break;
+            case 7: data.deleteExpenseCategoryUI(); pauseScreen(); break;
+            case 8: data.showExpenseCategories(); pauseScreen(); break;
+            case 0: return;
+            default:
+                cout << "Invalid option\n";
+                pauseScreen();
+        }
+    }
 }
 
 void App::recurringMenu() {
-    cout << "\n=== RECURRING TRANSACTIONS ===\n";
-    cout << "1. Add Recurring\n";
-    cout << "2. Remove Recurring\n";
-    cout << "3. List Recurring\n";
-    cout << "0. Back\n";
-    pauseScreen();
+    while (true) {
+        cout << "\n=== RECURRING TRANSACTIONS ===\n";
+        cout << "1. Add Recurring\n";
+        cout << "2. Remove Recurring\n";
+        cout << "3. List Recurring\n";
+        cout << "0. Back\n";
+        
+        int c = readInt ("Choose option: ");
+
+        switch (c) {
+            case 1: data.addRecurringTransactionUI(); pauseScreen(); break;
+            case 2: data.deleteRecurringTransactionUI(); pauseScreen(); break;
+            case 3: data.listRecurringTransactionsUI(); pauseScreen(); break;
+            case 0: return;
+            default:
+                cout << "Invalid option\n";
+                pauseScreen();
+        }
+    }
 }
 
 void App::statisticsMenu() {
-    cout << "\n=== STATISTICS ===\n";
-    cout << "1. By Date Range\n";
-    cout << "2. By Category\n";
-    cout << "3. By Wallet\n";
-    cout << "4. Monthly Summary\n";
-    cout << "0. Back\n";
-    pauseScreen();
+    while (true) {
+        cout << "\n=== STATISTICS & REPORTING ===\n";
+        cout << "1. Time-based Statistics\n";
+        cout << "2. Wallet Breakdown\n";
+        cout << "3. Annual Overview\n";
+        cout << "4. Annual Breakdown (Source / Category)\n";
+        cout << "0. Back\n";
+
+        int c = readInt("Choose option: ");
+
+        switch (c) {
+            case 1: data.showTimeBasedStatisticsUI(); pauseScreen(); break;
+            case 2: data.showWalletBreakdownStatisticsUI(); pauseScreen(); break;
+            case 3: data.showAnnualOverviewStatisticsUI(); pauseScreen(); break;
+            case 4: data.showAnnualBreakdownStatisticsUI(); pauseScreen(); break;
+            case 0: return;
+            default:
+                cout << "Invalid option.\n";
+                pauseScreen();
+        }
+    }
 }
