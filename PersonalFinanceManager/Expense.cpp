@@ -29,12 +29,24 @@ int askAndFindExpenseSourceIndexByID(ExpenseCategory* cate, int count) {
     return idx;
 }
 
+bool isValidExpenseID(const string& id) {
+    if (id.size() != 5) return false;
+    if (id[0] != 'E') return false;
+    for (int i = 1; i < 5; ++i) {
+        if (!isdigit((id[i]))) return false;
+    }
+    return true;
+}
+
 void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     ExpenseCategory c;
 
-    cout << "Enter category ID: ";
-    getline(cin, c.id);
-    if (c.id.empty()) getline(cin, c.id);
+    cout << "Enter ID(the format should be Iabcd with a,b,c,d is a number): ";
+    cin >> c.id;
+    if (!isValidExpenseID(c.id)) {
+        cout << "ERROR: Invalid ID format. Required: 'E' followed by 4 digits (e.g., E0001). Please try again.\n";
+        return;
+    }
 
     if (findExpenseCategoryIndexByID(cate, count, c.id) != -1) {
         cout << "ID already exists! Cannot add.\n";
@@ -191,3 +203,4 @@ void filterExpenseByWallet(int walletID, Date from, Date to) {
     }
     if (!found) cout << "No matching transactions found.\n";
 }
+
