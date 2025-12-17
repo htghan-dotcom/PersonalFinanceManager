@@ -1,4 +1,4 @@
-﻿
+
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -10,7 +10,6 @@ using namespace std;
 ExpenseTransaction* gExpTrans = nullptr;
 int gExpTransCount = 0;
 
-
 int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
     for (int i = 0; i < count; ++i) {
         if (cate[i].id == id) return i;
@@ -19,13 +18,13 @@ int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
 }
 
 int askAndFindExpenseSourceIndexByID(ExpenseCategory* cate, int count) {
-    cout << "Nhap ID ExpenseCategory: ";
+    cout << "Enter ExpenseCategory ID: ";
     string id;
     getline(cin, id);
-    if (id.empty()) getline(cin, id); 
+    if (id.empty()) getline(cin, id);
     int idx = findExpenseCategoryIndexByID(cate, count, id);
     if (idx == -1) {
-        cout << "Khong tim thay ExpenseCategory co ID = " << id << "\n";
+        cout << "ExpenseCategory with ID = " << id << " not found.\n";
     }
     return idx;
 }
@@ -33,16 +32,16 @@ int askAndFindExpenseSourceIndexByID(ExpenseCategory* cate, int count) {
 void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     ExpenseCategory c;
 
-    cout << "Nhap ID category : ";
+    cout << "Enter category ID: ";
     getline(cin, c.id);
     if (c.id.empty()) getline(cin, c.id);
 
     if (findExpenseCategoryIndexByID(cate, count, c.id) != -1) {
-        cout << "ID da ton tai! Khong the them.\n";
+        cout << "ID already exists! Cannot add.\n";
         return;
     }
 
-    cout << "Nhap ten category: ";
+    cout << "Enter category name: ";
     getline(cin, c.name);
 
     ExpenseCategory* newArr = new ExpenseCategory[count + 1];
@@ -53,22 +52,22 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     cate = newArr;
     ++count;
 
-    cout << "Da them ExpenseCategory.\n";
+    cout << "ExpenseCategory added successfully.\n";
 }
 
 void editExpenseCategory(ExpenseCategory* cate, int count) {
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 
-    cout << "Ten hien tai: " << cate[idx].name << "\nNhap Ten moi : ";
+    cout << "Current name: " << cate[idx].name << "\nEnter new name: ";
     string name;
     getline(cin, name);
     if (!name.empty()) cate[idx].name = name;
 
-    cout << "Da cap nhat ExpenseCategory.\n";
+    cout << "ExpenseCategory updated successfully.\n";
 }
 
-void deleteExpenseSource(ExpenseCategory*& cate, int& count) {
+void deleteDeleteSource(ExpenseCategory*& cate, int& count) {
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 
@@ -81,7 +80,7 @@ void deleteExpenseSource(ExpenseCategory*& cate, int& count) {
     cate = newArr;
     --count;
 
-    cout << "Da xoa ExpenseCategory.\n";
+    cout << "ExpenseCategory deleted successfully.\n";
 }
 
 void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
@@ -90,49 +89,42 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
 {
     ExpenseTransaction t;
 
- 
-    cout << "Nhap ID giao dich (bo trong se tu sinh): ";
+    cout << "Enter transaction ID (leave empty to auto-generate): ";
     getline(cin, t.ID);
 
-
-    cout << "Nhap ngay (dd mm yyyy): ";
+    cout << "Enter date (dd mm yyyy): ";
     cin >> t.date.day >> t.date.month >> t.date.year;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
- 
-    cout << "Nhap sourceID (ID danh muc chi): ";
+    cout << "Enter sourceID (Expense category ID): ";
     getline(cin, t.sourceID);
     if (findExpenseCategoryIndexByID(sources, CategoryCount, t.sourceID) == -1) {
-        cout << "Khong tim thay ExpenseCategory ID = " << t.sourceID << ". Huy.\n";
+        cout << "ExpenseCategory ID = " << t.sourceID << " not found. Cancel.\n";
         return;
     }
 
-    cout << "Nhap walletID (so nguyen): ";
+    cout << "Enter walletID (integer): ";
     string walletID;
     getline(cin, walletID);
     if (walletID.empty()) getline(cin, walletID);
 
-
-    int widx = findWalletIndexByID(wallets, walletCount, walletID); 
+    int widx = findWalletIndexByID(wallets, walletCount, walletID);
     if (widx == -1) {
-        cout << "Khong tim thay Wallet ID = " << walletID << ". Huy.\n";
+        cout << "Wallet ID = " << walletID << " not found. Cancel.\n";
         return;
     }
-    t.walletID = walletID; 
+    t.walletID = walletID;
 
-   
-    cout << "Nhap so tien (>=0): ";
+    cout << "Enter amount (>=0): ";
     cin >> t.amount;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     if (t.amount < 0) {
-        cout << "So tien khong hop le. Huy.\n";
+        cout << "Invalid amount. Cancel.\n";
         return;
     }
 
-  
-    cout << "Nhap ghi chu: ";
+    cout << "Enter note: ";
     getline(cin, t.note);
-
 
     ExpenseTransaction* newArr = new ExpenseTransaction[transCount + 1];
     for (int i = 0; i < transCount; ++i) newArr[i] = trans[i];
@@ -142,11 +134,10 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
     trans = newArr;
     ++transCount;
 
-
     gExpTrans = trans;
     gExpTransCount = transCount;
 
-    cout << "Da them ExpenseTransaction.\n";
+    cout << "ExpenseTransaction added successfully.\n";
 }
 
 void printExpenseTransaction(ExpenseTransaction t) {
@@ -162,11 +153,11 @@ void printExpenseTransaction(ExpenseTransaction t) {
 
 void filterExpenseByDateRange(Date from, Date to) {
     if (gExpTrans == nullptr || gExpTransCount == 0) {
-        cout << "Khong co du lieu ExpenseTransaction (gExpTrans rong).\n";
+        cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
     }
-    cout << "=== Expense trong khoang "
-        << from.day << "/" << from.month << "/" << from.year << " - "
+    cout << "=== Expenses from "
+        << from.day << "/" << from.month << "/" << from.year << " to "
         << to.day << "/" << to.month << "/" << to.year << " ===\n";
 
     bool found = false;
@@ -176,18 +167,18 @@ void filterExpenseByDateRange(Date from, Date to) {
             found = true;
         }
     }
-    if (!found) cout << "Khong co giao dich nao trong khoang thoi gian.\n";
+    if (!found) cout << "No transactions found in the given date range.\n";
 }
 
 void filterExpenseByWallet(int walletID, Date from, Date to) {
     if (gExpTrans == nullptr || gExpTransCount == 0) {
-        cout << "Khong co du lieu ExpenseTransaction (gExpTrans rong).\n";
+        cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
     }
-    string walletIDStr = to_string(walletID); // vì transaction lưu walletID dạng string
+    string walletIDStr = to_string(walletID);
 
-    cout << "=== Expense walletID=" << walletID << " trong khoang "
-        << from.day << "/" << from.month << "/" << from.year << " - "
+    cout << "=== Expenses for walletID=" << walletID << " from "
+        << from.day << "/" << from.month << "/" << from.year << " to "
         << to.day << "/" << to.month << "/" << to.year << " ===\n";
 
     bool found = false;
@@ -198,5 +189,5 @@ void filterExpenseByWallet(int walletID, Date from, Date to) {
             found = true;
         }
     }
-    if (!found) cout << "Khong co giao dich nao phu hop.\n";
+    if (!found) cout << "No matching transactions found.\n";
 }
