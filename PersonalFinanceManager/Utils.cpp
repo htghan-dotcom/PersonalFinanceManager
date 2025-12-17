@@ -36,3 +36,41 @@ bool isDateInRange(Date d, Date from, Date to) {
 bool isSameMonthYear(Date d, int m, int y) {
 	return (d.month == m && d.year == y);
 }
+int readInt(const string& prompt) {
+    int x;
+    while (true) {
+        cout << prompt;
+        if (cin >> x) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return x;
+        }
+        else {
+            cout << "Invalid input. Try again.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+double readDouble(const string& prompt) {
+    double x;
+    while (true) {
+        cout << prompt;
+        if (cin >> x) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return x;
+        }
+        else {
+            cout << "Invalid input. Try again.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+string readLine(const string& prompt) {
+    cout << prompt;
+    string s;
+    getline(cin, s);
+    return s;
+}
