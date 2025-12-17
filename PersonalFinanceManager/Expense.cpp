@@ -18,7 +18,7 @@ int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
     return -1;
 }
 
-int askAndFindIncomeSourceIndexByID(ExpenseCategory* cate, int count) {
+int askAndFindExpenseSourceIndexByID(ExpenseCategory* cate, int count) {
     cout << "Nhap ID ExpenseCategory: ";
     string id;
     getline(cin, id);
@@ -57,7 +57,7 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
 }
 
 void editExpenseCategory(ExpenseCategory* cate, int count) {
-    int idx = askAndFindIncomeSourceIndexByID(cate, count);
+    int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 
     cout << "Ten hien tai: " << cate[idx].name << "\nNhap Ten moi : ";
@@ -68,8 +68,8 @@ void editExpenseCategory(ExpenseCategory* cate, int count) {
     cout << "Da cap nhat ExpenseCategory.\n";
 }
 
-void deleteIncomeSource(ExpenseCategory*& cate, int& count) {
-    int idx = askAndFindIncomeSourceIndexByID(cate, count);
+void deleteExpenseSource(ExpenseCategory*& cate, int& count) {
+    int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 
     ExpenseCategory* newArr = new ExpenseCategory[count - 1];
