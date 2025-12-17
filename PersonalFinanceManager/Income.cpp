@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿
+#include <iostream>
 #include <string>
 #include <iomanip>
 #include "Income.h"
@@ -9,206 +10,195 @@ static IncomeTransaction* g_incomeTrans = nullptr;
 static int g_incomeTransCount = 0;
 
 int findIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount, string id) {
-	int index = -1;
-	for (int i = 0; i < IncomeCount; i++) {
-		if (sources[i].ID == id) {
-			return i;
-		}
-	}
-	return -1;
+    int index = -1;
+    for (int i = 0; i < IncomeCount; i++) {
+        if (sources[i].ID == id) {
+            return i;
+        }
+    }
+    return -1;
 }
+
 int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount) {
-	cout << "\n---TIM NGUON THU THEO ID---\n";
-	cout << "Vui long nhap ID cua nguon thu can tim: ";
-	string id;
-	cin >> id;
-	cout << endl;
-	return findIncomeSourceIndexByID(sources, IncomeCount, id);
+    cout << "\n---FIND INCOME SOURCE BY ID---\n";
+    cout << "Please enter the ID of the income source: ";
+    string id;
+    cin >> id;
+    cout << endl;
+    return findIncomeSourceIndexByID(sources, IncomeCount, id);
 }
+
 void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
-	cout << "\n---THEM NGUON THU---\n";
-	IncomeSource newSource;
-	cout << "Vui long nhap thong tin nguon thu moi:\n";
+    cout << "\n---ADD INCOME SOURCE---\n";
+    IncomeSource newSource;
+    cout << "Please enter the details of the new income source:\n";
 
-	cout << "Nhap ID: ";
-	cin >> newSource.ID;
+    cout << "Enter ID: ";
+    cin >> newSource.ID;
 
-	cout << "Nhap ten vi: ";
-	getline(cin, newSource.name);
+    cout << "Enter name: ";
+    getline(cin, newSource.name);
 
-	if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
-		cout << "LOI: ID da ton tai. Khong them.\n";
-		return;
-	}
+    if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
+        cout << "ERROR: ID already exists. Cannot add.\n";
+        return;
+    }
 
+    IncomeSource* newArr = new IncomeSource[IncomeCount + 1];
 
-	IncomeSource* newArr = new IncomeSource[IncomeCount + 1];
+    for (int i = 0; i < IncomeCount; ++i) {
+        newArr[i] = sources[i];
+    }
 
+    newArr[IncomeCount] = newSource;
 
-	for (int i = 0; i < IncomeCount; ++i) {
-		newArr[i] = sources[i];
-	}
+    delete[] sources;
+    sources = newArr;
+    ++IncomeCount;
 
-	newArr[IncomeCount] = newSource;
-
-	delete[] sources;
-	sources = newArr;
-	++IncomeCount;
-
-	cout << "Da cap nhat xong vi!\n";
+    cout << "Income source added successfully!\n";
 }
-
 
 void editIncomeSource(IncomeSource* sources, int count) {
-	cout << "\n---CHINH SUA NGUON THU---\n";
-	string ID;
-	cout << "Nhap ID cua nguon thu can thay doi: ";
-	cin >> ID;
-	int index = -1;
-	index = findIncomeSourceIndexByID(sources, count, ID);
-	if (index == -1) {
-		cout << "Khong the tim thay vi de chinh sua.\n";
-		return;
-	}
-	string field;
-	cout << "Vui long nhap thong tin can chinh sua cua nguon thu: ";
-	cin >> field;
-	if (field == "ID") {
-		cout << "Vui long nhap ID moi: ";
-		string newID;
-		cin >> newID;
+    cout << "\n---EDIT INCOME SOURCE---\n";
+    string ID;
+    cout << "Enter the ID of the income source to edit: ";
+    cin >> ID;
+    int index = -1;
+    index = findIncomeSourceIndexByID(sources, count, ID);
+    if (index == -1) {
+        cout << "Cannot find the income source to edit.\n";
+        return;
+    }
+    string field;
+    cout << "Please enter the field to edit (ID or name): ";
+    cin >> field;
+    if (field == "ID") {
+        cout << "Enter new ID: ";
+        string newID;
+        cin >> newID;
 
-		if (findIncomeSourceIndexByID(sources, count, newID) != -1) {
-			cout << "LOI: ID moi da ton tai. Khong cap nhat.\n";
-			return;
-		}
-		sources[index].ID = newID;
-	}
-	else if (field == "name") {
-		cout << "Vui long nhap ten vi moi: ";
-		getline(cin, sources[index].name);
-	}
-	else {
-		cout << "Truong hop khong hop le. \n";
-		return;
-	}
-	cout << "\n---DA CAP NHAT THANH CONG---\n";
+        if (findIncomeSourceIndexByID(sources, count, newID) != -1) {
+            cout << "ERROR: New ID already exists. Cannot update.\n";
+            return;
+        }
+        sources[index].ID = newID;
+    }
+    else if (field == "name") {
+        cout << "Enter new name: ";
+        getline(cin, sources[index].name);
+    }
+    else {
+        cout << "Invalid field.\n";
+        return;
+    }
+    cout << "\n---UPDATE SUCCESSFUL---\n";
 }
+
 void deleteIncomeSource(IncomeSource*& sources, int& count) {
-	cout << "\n---XOA NGUON THU---\n";
-	string IDToDelete;
-	cout << "Nhap ID cua nguon thu can xoa: ";
-	cin >> IDToDelete;
-	cout << endl;
+    cout << "\n---DELETE INCOME SOURCE---\n";
+    string IDToDelete;
+    cout << "Enter the ID of the income source to delete: ";
+    cin >> IDToDelete;
+    cout << endl;
 
-	int index = -1;
-	index = findIncomeSourceIndexByID(sources, count, IDToDelete);
-	if (index != -1) {
-		cout << "Khong tim thay nguon thu de xoa.\n";
-		return;
-	}
-	if (count == 1) {
-		delete sources;
-		sources = nullptr;
-		count = 0;
-		cout << "Da xoa vi ID( " << IDToDelete << ") " << "thanh cong.\n";
-		return;
-	}
-	IncomeSource* newArr = new IncomeSource[count - 1];
+    int index = -1;
+    index = findIncomeSourceIndexByID(sources, count, IDToDelete);
+    if (index == -1) {
+        cout << "Income source not found for deletion.\n";
+        return;
+    }
+    if (count == 1) {
+        delete sources;
+        sources = nullptr;
+        count = 0;
+        cout << "Deleted income source with ID(" << IDToDelete << ") successfully.\n";
+        return;
+    }
+    IncomeSource* newArr = new IncomeSource[count - 1];
 
-	for (int i = 0, j = 0; i < count; ++i) {
-		if (i == index) continue;
-		newArr[j++] = sources[i];
-	}
+    for (int i = 0, j = 0; i < count; ++i) {
+        if (i == index) continue;
+        newArr[j++] = sources[i];
+    }
 
-	delete[] sources;
-	sources = newArr;
-	--count;
+    delete[] sources;
+    sources = newArr;
+    --count;
 
-	cout << "Da xoa Vi ID[" << IDToDelete << "] thanh cong.\n";
+    cout << "Deleted income source with ID[" << IDToDelete << "] successfully.\n";
 }
 
-
-void addIncomeTransaction(IncomeTransaction*& trans, int& transCount,Wallet* wallets, int walletCount,IncomeSource* sources, int sourceCount) {
-    cout << "\n---THEM GIAO DICH THU---\n";
+void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, IncomeSource* sources, int sourceCount) {
+    cout << "\n---ADD INCOME TRANSACTION---\n";
     IncomeTransaction t;
-    cout << "Nhap ID giao dich: ";
+    cout << "Enter transaction ID: ";
     getline(cin, t.ID);
 
-   
-    cout << "Nhap ngay (dd mm yyyy): ";
+    cout << "Enter date (dd mm yyyy): ";
     cin >> t.date.day >> t.date.month >> t.date.year;
 
-  
-    cout << "Nhap so tien (+): ";
+    cout << "Enter amount (+): ";
     cin >> t.amount;
     if (t.amount <= 0) {
-        cout << "LOI: so tien phai > 0.\n";
-      
+        cout << "ERROR: Amount must be > 0.\n";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
- 
-    cout << "Nhap ID Vi nhan tien: ";
+    cout << "Enter Wallet ID: ";
     getline(cin, t.walletID);
     int wIdx = findWalletIndexByID(wallets, walletCount, t.walletID);
     if (wIdx == -1) {
-        cout << "LOI: Khong tim thay Vi ID[" << t.walletID << "].\n";
+        cout << "ERROR: Wallet ID[" << t.walletID << "] not found.\n";
         return;
     }
 
-    cout << "Nhap ID Nguon Thu: ";
+    cout << "Enter Income Source ID: ";
     getline(cin, t.sourceID);
     int sIdx = findIncomeSourceIndexByID(sources, sourceCount, t.sourceID);
     if (sIdx == -1) {
-        cout << "LOI: Khong tim thay Nguon Thu ID[" << t.sourceID << "].\n";
+        cout << "ERROR: Income Source ID[" << t.sourceID << "] not found.\n";
         return;
     }
 
-
-    cout << "Nhap ghi chu (co the de trong): ";
+    cout << "Enter note (optional): ";
     getline(cin, t.note);
 
-    
     IncomeTransaction* newArr = new IncomeTransaction[transCount + 1];
     for (int i = 0; i < transCount; ++i) newArr[i] = trans[i];
     newArr[transCount] = t;
 
-   
-    delete[] trans;            
+    delete[] trans;
     trans = newArr;
     ++transCount;
 
-   
     wallets[wIdx].balance += t.amount;
 
-   
     g_incomeTrans = trans;
     g_incomeTransCount = transCount;
 
-    cout << "Da them giao dich thu va cap nhat so du Vi ["
-        << wallets[wIdx].ID << "] thanh cong.\n";
+    cout << "Income transaction added and wallet [" << wallets[wIdx].ID << "] balance updated successfully.\n";
 }
 
 void printIncomeTransaction(IncomeTransaction t) {
     cout << "----------------------------------------\n";
-    cout << "ID GD : " << t.ID << "\n";
-    cout << "Ngay  : "; printDate(t.date); cout << "\n";
+    cout << "Transaction ID : " << t.ID << "\n";
+    cout << "Date           : "; printDate(t.date); cout << "\n";
     cout << fixed << setprecision(2);
-    cout << "So tien: +" << t.amount << "\n";
-    cout << "Vi     : " << t.walletID << "\n";
-    cout << "Nguon  : " << t.sourceID << "\n";
-    if (!t.note.empty()) cout << "Ghi chu: " << t.note << "\n";
+    cout << "Amount         : +" << t.amount << "\n";
+    cout << "Wallet         : " << t.walletID << "\n";
+    cout << "Source         : " << t.sourceID << "\n";
+    if (!t.note.empty()) cout << "Note           : " << t.note << "\n";
     cout << "----------------------------------------\n";
 }
 
 void filterIncomeByDateRange(Date from, Date to) {
-    cout << "\n---LOC GIAO DICH THU THEO KHOANG NGAY---\n";
+    cout << "\n---FILTER INCOME TRANSACTIONS BY DATE RANGE---\n";
     if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
-        cout << "Khong co giao dich de loc.\n";
+        cout << "No transactions to filter.\n";
         return;
     }
 
@@ -223,17 +213,16 @@ void filterIncomeByDateRange(Date from, Date to) {
     }
 
     if (found == 0) {
-        cout << "Khong co giao dich trong khoang ngay yeu cau.\n";
+        cout << "No transactions found in the specified date range.\n";
     }
 }
 
 void filterIncomeByWallet(string walletID, Date from, Date to) {
-    cout << "\n---LOC GIAO DICH THU THEO VI---\n";
+    cout << "\n---FILTER INCOME TRANSACTIONS BY WALLET---\n";
     if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
-        cout << "Khong co giao dich de loc.\n";
+        cout << "No transactions to filter.\n";
         return;
-
-
+    }
 
     if (compareDate(from, to) > 0) std::swap(from, to);
 
@@ -247,6 +236,5 @@ void filterIncomeByWallet(string walletID, Date from, Date to) {
     }
 
     if (found == 0) {
-        cout << "Khong co giao dich cho Vi ID[" << walletID << "] trong khoang ngay yeu cau.\n";
+        cout << "No transactions for Wallet ID[" << walletID << "] in the specified date range.\n";
     }
-}

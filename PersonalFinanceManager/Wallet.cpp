@@ -144,7 +144,7 @@ void deleteWallet(Wallet*& wallets, int& walletCount) {
 	cout << "Da xoa Vi ID[" << idToDelete << "] thanh cong.\n";
 }
 
-void updateWalletBalance(Wallet* wallets, int walletCount, int walletID, double amount) {
+void updateWalletBalance(Wallet* wallets, int walletCount, string walletID, double amount) {
 	int index = findWalletIndexByID(wallets, walletCount, walletID);
 
 	if (index != -1) {
