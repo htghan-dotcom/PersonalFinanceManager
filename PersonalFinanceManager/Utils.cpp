@@ -1,6 +1,7 @@
 ﻿﻿#include <iostream>
 #include "Utils.h"
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -39,7 +40,7 @@ bool validDate(const Date& date) {
 }
 
 
-void readDate() {
+void readDate(Date& d) {
     Date d;
 
     while (true) {

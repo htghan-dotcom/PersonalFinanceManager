@@ -9,7 +9,7 @@ struct Date {
 bool isLeapYear(int y);
 int daysInMonth(int m, int y);
 bool validDate(const Date& date);
-void readDate();
+void readDate(Date& d);
 void printDate(const Date d);
 int compareDate(Date a, Date b); //a sớm hơn là 1,b sớm hơn là -1,bằng là 0
 bool isDateInRange(Date d, Date from, Date to);
