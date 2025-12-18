@@ -12,7 +12,6 @@ struct IncomeSource {
 };
 
 struct IncomeTransaction {
-    string ID;
     Date date;
     string sourceID;
     string walletID;
