@@ -201,7 +201,6 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
 
 void printIncomeTransaction(IncomeTransaction t) {
     cout << "----------------------------------------\n";
-    cout << "Transaction ID : " << t.ID << "\n";
     cout << "Date           : "; printDate(t.date); cout << "\n";
     cout << fixed << setprecision(2);
     cout << "Amount         : +" << t.amount << "\n";
