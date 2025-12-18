@@ -22,7 +22,7 @@ public:
     static void annualOverview(
         IncomeTransaction* incomes, int incomeCount,
         ExpenseTransaction* expenses, int expenseCount,
-        int year
+        int* year, int yearNumber
     );
 
     static void annualSourceCategoryBreakdown(
@@ -30,6 +30,6 @@ public:
         IncomeTransaction* incomeTransactions, int incomeTransactionCount,
         ExpenseCategory* expenseCategories, int expenseCategoryCount,
         ExpenseTransaction* expenseTransactions, int expenseTransactionCount,
-        int year
+        int* year, int yearNumber
     );
 };

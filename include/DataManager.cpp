@@ -247,26 +247,36 @@ void DataManager::showWalletBreakdownStatisticsUI() {
 void DataManager::showAnnualOverviewStatisticsUI() {
     cout << "\n=== ANNUAL OVERVIEW ===\n";
 
-    int year = readInt("Enter year: ");
+    int yearNumber = read("Enter number of years: ");
+
+    int* year = new int[yearNumber];
+    for (int i = 0; i < yearNumber; i++) {
+        year[i] = readInt("Enter year: ");
+    }
 
     Statistics::annualOverview(
         incomeTransactions, incomeTransactionCount,
         expenseTransactions, expenseTransactionCount,
-        year
+        year, yearNumber
     );
 }
 
 void DataManager::showAnnualBreakdownStatisticsUI() {
     cout << "\n=== ANNUAL BREAKDOWN ===\n";
 
-    int year = readInt("Enter year: ");
+    int yearNumber = read("Enter number of years: ");
+
+    int* year = new int[yearNumber];
+    for (int i = 0; i < yearNumber; i++) {
+        year[i] = readInt("Enter year: ");
+    }
 
     Statistics::annualSourceCategoryBreakdown(
         incomeSources, incomeSourceCount,
         incomeTransactions, incomeTransactionCount,
         expenseCategories, expenseCategoryCount,
         expenseTransactions, expenseTransactionCount,
-        year
+        year, yearNumber
     );
 }
 

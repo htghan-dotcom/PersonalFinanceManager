@@ -151,3 +151,87 @@ void deleteRecurring(RecurringTransaction*& list, int& count) {
     count--;
     cout << "Recurring transaction deleted successfully.\n";
 }
+
+void applyRecurringTransactions(
+    RecurringTransaction*& list,
+    int& recurringCount,
+    Wallet* wallets,
+    int walletCount,
+    IncomeTransaction*& incomes,
+    int& incomeCount,
+    ExpenseTransaction*& expenses,
+    int& expenseCount,
+    int currentMonth,
+    int currentYear
+) {
+    for (int i = 0; i < recurringCount; i++) {
+        RecurringTransaction& r = list[i];
+        if (!shouldApply(r, currentMonth, currentYear)) continue;
+
+        if (r.isIncome) {
+            IncomeTransaction t;
+            t.sourceID = r.sourceOrCategoryID;
+            t.walletID = r.walletID;
+            t.amount = r.amount;
+            t.note = r.note;
+            t.date = {1, currentMonth, currentYear};
+
+            addIncomeTransactionDirect(incomes, incomeCount, wallets, walletCount, t);
+        } else {
+            ExpenseTransaction t;
+            t.sourceID = r.sourceOrCategoryID;
+            t.walletID = r.walletID;
+            t.amount = r.amount;
+            t.note = r.note;
+
+            t.date = {1, currentMonth, currentYear};
+
+            addExpenseTransactionDirect(expenses, expenseCount, wallets, walletCount, t);
+        }
+
+        r.lastAppliedMonth = currentMonth;
+        r.lastAppliedYear = currentYear;
+    }
+}
+
+void addIncomeTransactionDirect(
+    IncomeTransaction*& list, 
+    int& count,
+    Wallet* wallets,
+    int walletCount,
+    const IncomeTransaction& t
+) {
+    IncomeTransaction* newList = new IncomeTransaction[count + 1];
+    for (int i = 0; i < count; i++) newList[i] = list[i];
+    newList[count] = t;
+
+    int wIndex = findWalletIndexByID(wallets, walletCount, t.walletID);
+    if (!wIndex != -1) {
+        wallets[wIndex].balance += t.amount;
+    }
+
+    delete[] list;
+    list = newList;
+    count++;
+}
+
+void addExpenseTransactionDirect(
+    ExpenseTransaction*& list, 
+    int& count,
+    Wallet* wallets,
+    int walletCount,
+    const ExpenseTransaction& t
+) {
+    ExpenseTransaction* newList = new ExpenseTransaction[count + 1];
+    for (int i = 0; i < count; i++) newList[i] = list[i];
+    newList[count] = t;
+
+    int wIndex = findWalletIndexByID(wallets, walletCount, t.walletID);
+    if (!wIndex != -1) {
+        wallets[wIndex].balance += t.amount;
+    }
+
+    delete[] list;
+    list = newList;
+    count++;
+}

@@ -66,27 +66,28 @@ void Statistics::walletBreakdown(
 void Statistics::annualOverview(
     IncomeTransaction* incomes, int incomeCount,
     ExpenseTransaction* expenses, int expenseCount,
-    int year
+    int* year, int yearNumber
 ) {
     double totalIncome = 0;
     double totalExpense = 0;
 
-    for (int i = 0; i < incomeCount; i++) {
-        if (incomes[i].date.year == year) {
-            totalIncome += incomes[i].amount;
+    for (int y = 0; y < yearNumber; y++) {
+        for (int i = 0; i < incomeCount; i++) {
+            if (incomes[i].date.year == year[y]) {
+                totalIncome += incomes[i].amount;
+            }
         }
-    }
 
-    for (int i = 0; i < expenseCount; i++) {
-        if (expenses[i].date.year == year) {
-            totalExpense += expenses[i].amount;
+        for (int i = 0; i < expenseCount; i++) {
+            if (expenses[i].date.year == year[y]) {
+                totalExpense += expenses[i].amount;
+            }
         }
-    }
-
-    cout << "\n=== ANNUAL OVERVIEW " << year << " ===\n";
-    cout << "Income: " << totalIncome << endl;
-    cout << "Expense: " << totalExpense << endl;
-    cout << "Net Balance: " << totalIncome - totalExpense << endl;
+        cout << "\n=== ANNUAL OVERVIEW " << year[y] << " ===\n";
+        cout << "Income: " << totalIncome << endl;
+        cout << "Expense: " << totalExpense << endl;
+        cout << "Net Balance: " << totalIncome - totalExpense << endl;
+    } 
 }
 
 void Statistics::annualSourceCategoryBreakdown(

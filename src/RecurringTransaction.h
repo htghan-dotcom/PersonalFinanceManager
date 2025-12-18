@@ -52,3 +52,20 @@ void applyRecurringTransactions(
     int currentMonth,
     int currentYear
 );
+
+void addIncomeTransactionDirect(
+    IncomeTransaction*& list, 
+    int& count,
+    Wallet* wallets,
+    int walletCount,
+    const IncomeTransaction& t
+);
+
+void addExpenseTransactionDirect(
+    ExpenseTransaction*& list, 
+    int& count,
+    Wallet* wallets,
+    int walletCount,
+    const ExpenseTransaction& t
+);
+
