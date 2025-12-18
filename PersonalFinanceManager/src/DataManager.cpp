@@ -62,7 +62,7 @@ void DataManager::editWalletUI() {
 }
 
 void DataManager::deleteWalletUI() {
-    ::deleteWallet(&wallets, &walletCount);
+    ::deleteWallet(wallets, walletCount);
 }
 
 void DataManager::showWallets() {
@@ -247,7 +247,7 @@ void DataManager::showWalletBreakdownStatisticsUI() {
 void DataManager::showAnnualOverviewStatisticsUI() {
     cout << "\n=== ANNUAL OVERVIEW ===\n";
 
-    int yearNumber = read("Enter number of years: ");
+    int yearNumber = readInt("Enter number of years: ");
 
     int* year = new int[yearNumber];
     for (int i = 0; i < yearNumber; i++) {
@@ -264,7 +264,7 @@ void DataManager::showAnnualOverviewStatisticsUI() {
 void DataManager::showAnnualBreakdownStatisticsUI() {
     cout << "\n=== ANNUAL BREAKDOWN ===\n";
 
-    int yearNumber = read("Enter number of years: ");
+    int yearNumber = readInt("Enter number of years: ");
 
     int* year = new int[yearNumber];
     for (int i = 0; i < yearNumber; i++) {

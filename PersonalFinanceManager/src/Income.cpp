@@ -1,8 +1,10 @@
-
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <limits>
+
 #include "Income.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -150,7 +152,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
     cout << "Enter transaction ID: ";
     getline(cin, t.ID);
 
-    readDate();
+    readDate(t.date);
 
     cout << "Enter amount (+): ";
     cin >> t.amount;

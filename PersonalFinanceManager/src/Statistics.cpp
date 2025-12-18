@@ -68,10 +68,10 @@ void Statistics::annualOverview(
     ExpenseTransaction* expenses, int expenseCount,
     int* year, int yearNumber
 ) {
-    double totalIncome = 0;
-    double totalExpense = 0;
-
     for (int y = 0; y < yearNumber; y++) {
+        double totalIncome = 0;
+        double totalExpense = 0;
+
         for (int i = 0; i < incomeCount; i++) {
             if (incomes[i].date.year == year[y]) {
                 totalIncome += incomes[i].amount;
@@ -95,47 +95,49 @@ void Statistics::annualSourceCategoryBreakdown(
     IncomeTransaction* incomeTransactions, int incomeTransactionCount,
     ExpenseCategory* expenseCategories, int expenseCategoryCount,
     ExpenseTransaction* expenseTransactions, int expenseTransactionCount,
-    int year
+    int* year, int yearNumber
 ) {
-    cout << "\n=== ANNUAL BREAKDOWN " << year << " ===\n";
+    for (int y = 0; y < yearNumber; y++) {
+        cout << "\n=== ANNUAL BREAKDOWN " << year[y] << " ===\n";
 
-    cout << "\n-- Income Breakdown --\n";
-    double totalIncome = 0;
-    double* incomeTotals = new double[incomeSourceCount]();
+        cout << "\n-- Income Breakdown --\n";
+        double totalIncome = 0;
+        double* incomeTotals = new double[incomeSourceCount]();
 
-    for (int i = 0; i < incomeTransactionCount; i++) {
-        if (incomeTransactions[i].date.year == year) {
-            int sourceIndex = findIncomeSourceIndexByID(incomeSources, incomeSourceCount, incomeTransactions[i].sourceID);
-            if (sourceIndex != -1) {
-                incomeTotals[sourceIndex] += incomeTransactions[i].amount;
-                totalIncome += incomeTransactions[i].amount;
+        for (int i = 0; i < incomeTransactionCount; i++) {
+            if (incomeTransactions[i].date.year == year[y]) {
+                int sourceIndex = findIncomeSourceIndexByID(incomeSources, incomeSourceCount, incomeTransactions[i].sourceID);
+                if (sourceIndex != -1) {
+                    incomeTotals[sourceIndex] += incomeTransactions[i].amount;
+                    totalIncome += incomeTransactions[i].amount;
+                }
             }
         }
-    }
 
-    cout << "Total Income: " << totalIncome << endl; 
-    for (int i = 0; i < incomeSourceCount; ++i) {
-        cout << "* " << incomeSources[i].name << ": " << incomeTotals[i] << endl;
-    }
-    delete[] incomeTotals;
+        cout << "Total Income: " << totalIncome << endl; 
+        for (int i = 0; i < incomeSourceCount; i++) {
+            cout << "* " << incomeSources[i].name << ": " << incomeTotals[i] << endl;
+        }
+        delete[] incomeTotals;
 
-    cout << "\n-- Expense Breakdown --\n";
-    double totalExpense = 0;
-    double* expenseTotals = new double[expenseCategoryCount]();
-    
-    for (int i = 0; i < expenseTransactionCount; i++) {
-        if (expenseTransactions[i].date.year == year) {
-            int categoryIndex = findExpenseCategoryIndexByID(expenseCategories, expenseCategoryCount, expenseTransactions[i].sourceID); 
-            if (categoryIndex != -1) {
-                expenseTotals[categoryIndex] += expenseTransactions[i].amount;
-                totalExpense += expenseTransactions[i].amount;
+        cout << "\n-- Expense Breakdown --\n";
+        double totalExpense = 0;
+        double* expenseTotals = new double[expenseCategoryCount]();
+        
+        for (int i = 0; i < expenseTransactionCount; i++) {
+            if (expenseTransactions[i].date.year == year[y]) {
+                int categoryIndex = findExpenseCategoryIndexByID(expenseCategories, expenseCategoryCount, expenseTransactions[i].sourceID); 
+                if (categoryIndex != -1) {
+                    expenseTotals[categoryIndex] += expenseTransactions[i].amount;
+                    totalExpense += expenseTransactions[i].amount;
+                }
             }
         }
-    }
 
-    cout << "Total Expense: " << totalExpense << endl; 
-    for (int i = 0; i < expenseCategoryCount; ++i) {
-        cout << "* " << expenseCategories[i].name << ": " << expenseTotals[i] << endl;
-    }
-    delete[] expenseTotals;
+        cout << "Total Expense: " << totalExpense << endl; 
+        for (int i = 0; i < expenseCategoryCount; i++) {
+            cout << "* " << expenseCategories[i].name << ": " << expenseTotals[i] << endl;
+        }
+        delete[] expenseTotals;
+    } 
 }
