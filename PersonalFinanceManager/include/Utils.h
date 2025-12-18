@@ -14,6 +14,6 @@ void printDate(const Date d);
 int compareDate(Date a, Date b); //a sớm hơn là 1,b sớm hơn là -1,bằng là 0
 bool isDateInRange(Date d, Date from, Date to);
 bool isSameMonthYear(Date d, int m, int y);
-int readInt(const string& prompt);
-double readDouble(const string& prompt);
-string readLine(const string& prompt);
+int readInt(const std::string& prompt);
+double readDouble(const std::string& prompt);
+std::string readLine(const std::string& prompt);

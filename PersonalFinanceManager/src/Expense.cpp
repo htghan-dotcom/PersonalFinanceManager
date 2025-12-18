@@ -79,7 +79,7 @@ void editExpenseCategory(ExpenseCategory* cate, int count) {
     cout << "ExpenseCategory updated successfully.\n";
 }
 
-void deleteDeleteCategory(ExpenseCategory*& cate, int& count) {
+void deleteExpenseCategory(ExpenseCategory*& cate, int& count) {
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 

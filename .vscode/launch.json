@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/HCMUS/HK1 25-26/Intro to CS/FinalProject/PersonalFinanceManager/PersonalFinanceManager",
-      "program": "d:/HCMUS/HK1 25-26/Intro to CS/FinalProject/PersonalFinanceManager/PersonalFinanceManager/build/Debug/outDebug",
+      "cwd": "d:/HCMUS/HK1 25-26/Intro to CS/FINAL_PROJECT/PersonalFinanceManager",
+      "program": "d:/HCMUS/HK1 25-26/Intro to CS/FINAL_PROJECT/PersonalFinanceManager/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

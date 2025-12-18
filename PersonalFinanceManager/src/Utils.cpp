@@ -1,7 +1,8 @@
-﻿﻿#include <iostream>
-#include "Utils.h"
+﻿#include <iostream>
 #include <string>
 #include <limits>
+
+#include "Utils.h"
 
 using namespace std;
 
@@ -41,8 +42,6 @@ bool validDate(const Date& date) {
 
 
 void readDate(Date& d) {
-    Date d;
-
     while (true) {
         cout << "Please enter day, month, year respectively (dd mm yyyy): ";
         cin >> d.day >> d.month >> d.year;
@@ -128,6 +127,6 @@ double readDouble(const string& prompt) {
 string readLine(const string& prompt) {
     cout << prompt;
     string s;
-    getline(cin, s);
+    getline(cin >> ws, s);
     return s;
 }

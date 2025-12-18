@@ -254,3 +254,4 @@ void filterIncomeByWallet(string walletID, Date from, Date to) {
     if (found == 0) {
         cout << "No transactions for Wallet ID[" << walletID << "] in the specified date range.\n";
     }
+}

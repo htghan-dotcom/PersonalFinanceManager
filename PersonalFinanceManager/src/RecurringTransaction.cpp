@@ -206,7 +206,7 @@ void addIncomeTransactionDirect(
     newList[count] = t;
 
     int wIndex = findWalletIndexByID(wallets, walletCount, t.walletID);
-    if (!wIndex != -1) {
+    if (wIndex != -1) {
         wallets[wIndex].balance += t.amount;
     }
 
@@ -227,7 +227,7 @@ void addExpenseTransactionDirect(
     newList[count] = t;
 
     int wIndex = findWalletIndexByID(wallets, walletCount, t.walletID);
-    if (!wIndex != -1) {
+    if (wIndex != -1) {
         wallets[wIndex].balance += t.amount;
     }
 

@@ -160,4 +160,4 @@ void updateWalletBalance(Wallet* wallets, int walletCount, string walletID, doub
     }
     else {
         cout << "ERROR: Wallet ID " << walletID << " not found.\n";
-    }
+    }}
