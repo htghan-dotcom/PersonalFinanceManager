@@ -61,7 +61,7 @@ void DataManager::deleteWalletUI() {
 
 void DataManager::showWallets() {
     cout << "\n=== WALLETS ===\n";
-    double total = 0;
+    long double total = 0;
     for (int i = 0; i < walletCount; i++) {
         cout << i + 1 << ". ID: " << wallets[i].ID
              << " | Name: " << wallets[i].name
