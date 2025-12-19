@@ -65,7 +65,7 @@ void readDate(Date& d) {
 }
 
 void printDate(const Date d) {
-	cout << d.day << "//" << d.month << "//" << d.year << endl;
+	cout << d.day << "/" << d.month << "/" << d.year << endl;
 }
 
 int compareDate(Date a, Date b) { //a sớm hơn b là 1,-1 là ngược lại và a trùng b là 1

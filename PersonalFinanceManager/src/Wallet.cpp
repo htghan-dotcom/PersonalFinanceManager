@@ -43,6 +43,7 @@ void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
     cin >> newWallet.ID;
     if (!isValidWalletID(newWallet.ID)) {
         cout << "ERROR: Invalid ID format. Required: 'W' followed by 4 digits (e.g., W0001). Please try again.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 

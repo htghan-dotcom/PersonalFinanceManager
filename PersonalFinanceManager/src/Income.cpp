@@ -50,6 +50,7 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
 
     if (!isValidIncomeID(newSource.ID)) {
         cout << "ERROR: Invalid ID format.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 

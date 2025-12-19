@@ -50,6 +50,7 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
 
     if (findExpenseCategoryIndexByID(cate, count, c.id) != -1) {
         cout << "ID already exists! Cannot add.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
