@@ -70,14 +70,12 @@ void App::handleChoice() {
 void App::addIncomeMenu() {
     cout << "\n=== ADD INCOME ===\n";
     data.addIncomeTransactionUI(); 
-    cout << "Income added successfully.\n";
     pauseScreen();
 }
 
 void App::addExpenseMenu() {
     cout << "\n=== ADD EXPENSE ===\n" << endl;
     data.addExpenseTransactionUI();
-    cout << "Expense added successfully.\n";
     pauseScreen();
 }
 
