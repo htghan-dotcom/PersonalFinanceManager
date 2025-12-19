@@ -54,7 +54,7 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     }
 
     cout << "Enter category name: ";
-    getline(cin, c.name);
+    getline(cin >> std::ws, c.name);
 
     ExpenseCategory* newArr = new ExpenseCategory[count + 1];
     for (int i = 0; i < count; ++i) newArr[i] = cate[i];
@@ -100,9 +100,6 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
     ExpenseCategory* sources, int CategoryCount)
 {
     ExpenseTransaction t;
-
-    cout << "Enter transaction ID (leave empty to auto-generate): ";
-    getline(cin, t.ID);
 
     cout << "Enter date (dd mm yyyy): ";
     cin >> t.date.day >> t.date.month >> t.date.year;

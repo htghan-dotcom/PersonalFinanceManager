@@ -12,7 +12,6 @@ static IncomeTransaction* g_incomeTrans = nullptr;
 static int g_incomeTransCount = 0;
 
 int findIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount, string id) {
-    int index = -1;
     for (int i = 0; i < IncomeCount; i++) {
         if (sources[i].ID == id) {
             return i;
@@ -54,7 +53,7 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
     }
 
     cout << "Enter name: ";
-    getline(cin, newSource.name);
+    getline(cin >> std::ws, newSource.name);
 
     if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
         cout << "ERROR: ID already exists. Cannot add.\n";
@@ -149,8 +148,6 @@ void deleteIncomeSource(IncomeSource*& sources, int& count) {
 void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, IncomeSource* sources, int sourceCount) {
     cout << "\n---ADD INCOME TRANSACTION---\n";
     IncomeTransaction t;
-    cout << "Enter transaction ID: ";
-    getline(cin, t.ID);
 
     readDate(t.date);
 

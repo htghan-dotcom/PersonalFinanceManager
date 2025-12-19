@@ -33,9 +33,8 @@ bool isValidWalletID(const string& id) {
 }
 
 
-void addWallet(Wallet*& wallets, int& walletCount) {
+void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
     cout << "\n---ADD WALLET---\n";
-    Wallet newWallet;
 
     cout << "Please enter the new wallet information:\n";
 
@@ -72,7 +71,7 @@ void addWallet(Wallet*& wallets, int& walletCount) {
     cout << "Wallet added successfully!\n";
 }
 
-void editWallet(Wallet* wallets, int walletCount) {
+void editWallet(Wallet*& wallets, int walletCount) {
     cout << "\n---EDIT WALLET---\n";
     cout << "Please enter the wallet ID to edit: ";
     string idToEdit;

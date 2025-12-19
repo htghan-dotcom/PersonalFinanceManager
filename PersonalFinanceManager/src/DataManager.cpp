@@ -48,12 +48,6 @@ string DataManager::getExpenseCategoryName(const string& id) const {
 
 void DataManager::addWalletUI() {
     Wallet w;
-    cout << "Wallet ID: ";
-    cin >> w.ID;
-    cout << "Wallet name: ";
-    getline(cin >> ws, w.name);
-    cout << "Initial balance: ";
-    cin >> w.balance;
     ::addWallet(wallets, walletCount, w);
 }
 
@@ -280,4 +274,50 @@ void DataManager::showAnnualBreakdownStatisticsUI() {
     );
 }
 
+void DataManager::loadWallets() {
+    walletCount = 0;
+    wallets = nullptr;
+}
 
+void DataManager::saveWallets() {
+}
+
+void DataManager::loadIncomeSources() {
+    incomeSourceCount = 0;
+    incomeSources = nullptr;
+}
+
+void DataManager::saveIncomeSources() {
+}
+
+void DataManager::loadExpenseCategories() {
+    expenseCategoryCount = 0;
+    expenseCategories = nullptr;
+}
+
+void DataManager::saveExpenseCategories() {
+}
+
+void DataManager::loadIncomeTransactions() {
+    incomeTransactionCount = 0;
+    incomeTransactions = nullptr;
+}
+
+void DataManager::saveIncomeTransactions() {
+}
+
+void DataManager::loadExpenseTransactions() {
+    expenseTransactionCount = 0;
+    expenseTransactions = nullptr;
+}
+
+void DataManager::saveExpenseTransactions() {
+}
+
+void DataManager::loadRecurring() {
+    recurringCount = 0;
+    recurringList = nullptr;
+}
+
+void DataManager::saveRecurring() {
+}

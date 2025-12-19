@@ -39,7 +39,7 @@ void App::showDashboard() {
     cout << "1. Add Income\n";
     cout << "2. Add expense\n";
     cout << "3. Manage Wallets\n";
-    cout << "4. Manage Categories\n";
+    cout << "4. Manage Sources & Categories\n";
     cout << "5. Recurring Transactions\n";
     cout << "6. Statistics\n";
     cout << "0. Exit\n";
