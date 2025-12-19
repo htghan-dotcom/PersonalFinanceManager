@@ -42,26 +42,24 @@ bool isValidIncomeID(const string& id) {
 void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
     cout << "\n---ADD INCOME SOURCE---\n";
     IncomeSource newSource;
-    cout << "Please enter the details of the new income source:\n";
 
-    cout << "Enter ID(the format should be Iabcd with a,b,c,d is a number): ";
+    cout << "PLEASE ENTER THE DETAILS OF THE NEW INCOME SOURCE\n";
+
+    cout << "Enter ID (format I0001): ";
     cin >> newSource.ID;
+
     if (!isValidIncomeID(newSource.ID)) {
-        cout << "ERROR: Invalid ID format. Required: 'I' followed by 4 digits (e.g., I0001). Please try again.\n";
+        cout << "ERROR: Invalid ID format.\n";
         return;
     }
-
-    cout << "Enter name: ";
-    getline(cin >> std::ws, newSource.name);
 
     if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
-        cout << "ERROR: ID already exists. Cannot add.\n";
+        cout << "ERROR: ID already exists.\n";
         return;
     }
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Enter name: ";
-    getline(cin, newSource.name);
+    getline(cin >> ws, newSource.name);  
 
     IncomeSource* newArr = new IncomeSource[IncomeCount + 1];
 

@@ -71,6 +71,8 @@ void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
     cout << "Wallet added successfully!\n";
 }
 
+
+
 void editWallet(Wallet*& wallets, int walletCount) {
     cout << "\n---EDIT WALLET---\n";
     cout << "Please enter the wallet ID to edit: ";
@@ -86,35 +88,104 @@ void editWallet(Wallet*& wallets, int walletCount) {
     cout << "Please enter the field to edit (ID/name/balance): ";
     string field;
     cin >> field;
+    for (char& c : field) c = static_cast<char>(tolower(c));
 
-    if (field == "ID") {
-        cout << "Enter new ID: ";
-        string newID;
-        cin >> newID;
+    if (field == "id") {
+        while (true) {
+            cout << "Enter new ID (or type CANCEL to abort): ";
+            string newID;
+            cin >> newID;
 
-        if (findWalletIndexByID(wallets, walletCount, newID) != -1) {
-            cout << "ERROR: New ID already exists. Cannot update.\n";
+            if (newID == "CANCEL") {
+                cout << "Update canceled.\n";
+                return;
+            }
+            if (newID.empty()) {
+                cout << "ERROR: ID cannot be empty.\n";
+                continue;
+            }
+            if (findWalletIndexByID(wallets, walletCount, newID) != -1) {
+                cout << "ERROR: New ID already exists. Try another.\n";
+                continue;
+            }
+
+            wallets[index].ID = newID;
+            cout << "\n---UPDATE SUCCESSFUL!---\n";
             return;
         }
-        wallets[index].ID = newID;
     }
     else if (field == "name") {
-        cout << "Enter new wallet name: ";
-        getline(cin, wallets[index].name);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        while (true) {
+            cout << "Enter new wallet name (press ENTER to cancel): ";
+            string newName;
+
+    
+            getline(cin >> std::ws, newName);
+
+       
+            if (newName.empty()) {
+                cout << "Update canceled.\n";
+                return;
+            }
+
+        
+            bool allSpaces = true;
+            for (unsigned char ch : newName) {
+                if (!isspace(ch)) { allSpaces = false; break; }
+            }
+            if (allSpaces) {
+                cout << "ERROR: Name cannot be only spaces. Please re-enter.\n";
+                continue;
+            }
+
+            wallets[index].name = newName;
+            cout << "\n---UPDATE SUCCESSFUL!---\n";
+            return;
+        }
     }
     else if (field == "balance") {
-        cout << "Enter new balance: ";
-        double newBalance;
-        cin >> newBalance;
-        wallets[index].balance = newBalance;
+       
+        while (true) {
+            cout << "Enter new balance (or type - to cancel): ";
+            string token;
+            cin >> token;
+
+            if (token == "-") {
+                cout << "Update canceled.\n";
+                return;
+            }
+
+          
+            try {
+                size_t pos = 0;
+                double value = stod(token, &pos);
+                if (pos != token.size()) {
+                    cout << "ERROR: Invalid number format.\n";
+                    continue;
+                }
+                if (value < 0) {
+                    cout << "ERROR: Balance cannot be negative.\n";
+                    continue;
+                }
+
+                wallets[index].balance = value;
+                cout << "\n---UPDATE SUCCESSFUL!---\n";
+                return;
+            } catch (...) {
+                cout << "ERROR: Invalid number format.\n";
+                continue;
+            }
+        }
     }
     else {
         cout << "Invalid field! Supported: ID / name / balance\n";
         return;
     }
-
-    cout << "\n---UPDATE SUCCESSFUL!---\n";
 }
+
+
 
 void deleteWallet(Wallet*& wallets, int& walletCount) {
     cout << "\n---DELETE WALLET---\n";
