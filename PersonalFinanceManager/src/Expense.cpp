@@ -41,7 +41,7 @@ bool isValidExpenseID(const string& id) {
 void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     ExpenseCategory c;
 
-    cout << "Enter ID(the format should be Iabcd with a,b,c,d is a number): ";
+    cout << "Enter ID(the format should be Eabcd with a,b,c,d is a number): ";
     cin >> c.id;
     if (!isValidExpenseID(c.id)) {
         cout << "ERROR: Invalid ID format. Required: 'E' followed by 4 digits (e.g., E0001). Please try again.\n";

@@ -39,7 +39,7 @@ void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
 
     cout << "Please enter the new wallet information:\n";
 
-    cout << "Enter ID(the format should be Iabcd with a,b,c,d is a number): ";
+    cout << "Enter ID(the format should be Wabcd with a,b,c,d is a number): ";
     cin >> newWallet.ID;
     if (!isValidWalletID(newWallet.ID)) {
         cout << "ERROR: Invalid ID format. Required: 'W' followed by 4 digits (e.g., W0001). Please try again.\n";
