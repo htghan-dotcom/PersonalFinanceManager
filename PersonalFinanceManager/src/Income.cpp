@@ -45,7 +45,7 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
 
     cout << "PLEASE ENTER THE DETAILS OF THE NEW INCOME SOURCE\n";
 
-    cout << "Enter ID (format I0001): ";
+    cout << "Enter ID (format Iabcd with a,b,c,d is a number): ";
     cin >> newSource.ID;
 
     if (!isValidIncomeID(newSource.ID)) {

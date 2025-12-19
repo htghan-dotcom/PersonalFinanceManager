@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#include <limits>
 #include "Wallet.h"
 
 using namespace std;
