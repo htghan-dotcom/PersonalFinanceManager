@@ -76,7 +76,7 @@ void App::addIncomeMenu() {
 }
 
 void App::addExpenseMenu() {
-    cout << "ADD EXPENSE" << endl;
+    cout << "\n=== ADD EXPENSE ===\n" << endl;
     data.addExpenseTransactionUI();
     cout << "Expense added successfully.\n";
     pauseScreen();
