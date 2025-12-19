@@ -83,7 +83,7 @@ void App::showWalletMenu() {
     while (true) {
         cout << "\n=== MANAGE WALLETS ===\n" << endl;
         cout << "1. Add Wallet\n";
-        cout << "2. Rename Wallet\n";
+        cout << "2. Change Wallet's Information\n";
         cout << "3. Delete Wallet\n";
         cout << "4. Show Wallets\n";
         cout << "0. Back\n";

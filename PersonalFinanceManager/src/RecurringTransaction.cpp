@@ -97,12 +97,14 @@ void printRecurring(const RecurringTransaction& r,
     cout << "Amount: " << r.amount << " | ";
     cout << (r.isIncome ? "Source: " : "Category: ");
     if (r.isIncome) {
-        cout << findSourceNameByID_Recur(sources, sourceCount, r.sourceOrCategoryID);
+        cout << "[" << r.sourceOrCategoryID << "] "
+             << findSourceNameByID_Recur(sources, sourceCount, r.sourceOrCategoryID);
     } else {
-        cout << findCategoryNameByID_Recur(categories, categoryCount, r.sourceOrCategoryID);
+        cout << "[" << r.sourceOrCategoryID << "] "
+             << findCategoryNameByID_Recur(categories, categoryCount, r.sourceOrCategoryID);
     }
 
-    cout << " | Wallet: " << walletName << " | ";
+    cout << " | Wallet: [" << r.walletID << "] " << walletName << " | ";
     cout << "From ";
     printDate(r.startDate);
     cout << " to ";
