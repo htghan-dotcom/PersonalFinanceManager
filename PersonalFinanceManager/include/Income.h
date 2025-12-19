@@ -12,7 +12,6 @@ struct IncomeSource {
 };
 
 struct IncomeTransaction {
-    string ID;
     Date date;
     string sourceID;
     string walletID;
@@ -24,7 +23,7 @@ struct IncomeTransaction {
 int findIncomeSourceIndexByID(IncomeSource* sources, int count, string id);
 int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int count);
 bool isValidIncomeID(const string& id);
-void addIncomeSource(IncomeSource*& sources, int& count);
+void addIncomeSource(IncomeSource*& sources, int& Incomecount);
 void editIncomeSource(IncomeSource* sources, int count);
 void deleteIncomeSource(IncomeSource*& sources, int& count);
 

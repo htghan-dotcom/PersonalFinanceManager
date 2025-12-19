@@ -154,7 +154,6 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
 
 void printExpenseTransaction(ExpenseTransaction t) {
     cout << "ExpenseTransaction {"
-        << " ID=" << t.ID
         << ", date=";
         printDate(t.date);
         cout << ", sourceID=" << t.sourceID
