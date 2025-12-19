@@ -1,10 +1,8 @@
+
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <limits>
-
 #include "Income.h"
-#include "Utils.h"
 
 using namespace std;
 
@@ -51,14 +49,21 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
         cout << "ERROR: Invalid ID format. Required: 'I' followed by 4 digits (e.g., I0001). Please try again.\n";
         return;
     }
+<<<<<<< HEAD
 
     cout << "Enter name: ";
     getline(cin >> std::ws, newSource.name);
 
+=======
+>>>>>>> 34c05f872b16fc7fcfa332e3555dd1681dce8722
     if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
         cout << "ERROR: ID already exists. Cannot add.\n";
         return;
     }
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter name: ";
+    getline(cin, newSource.name);
 
     IncomeSource* newArr = new IncomeSource[IncomeCount + 1];
 
@@ -149,7 +154,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
     cout << "\n---ADD INCOME TRANSACTION---\n";
     IncomeTransaction t;
 
-    readDate(t.date);
+    readDate();
 
     cout << "Enter amount (+): ";
     cin >> t.amount;
@@ -198,6 +203,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
 
 void printIncomeTransaction(IncomeTransaction t) {
     cout << "----------------------------------------\n";
+    cout << "Transaction ID : " << t.ID << "\n";
     cout << "Date           : "; printDate(t.date); cout << "\n";
     cout << fixed << setprecision(2);
     cout << "Amount         : +" << t.amount << "\n";
@@ -250,4 +256,3 @@ void filterIncomeByWallet(string walletID, Date from, Date to) {
     if (found == 0) {
         cout << "No transactions for Wallet ID[" << walletID << "] in the specified date range.\n";
     }
-}
