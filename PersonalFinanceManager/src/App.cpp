@@ -10,7 +10,6 @@ using namespace std;
 
 void pauseScreen() {
     cout << "\n(Press Enter to continue...)";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
@@ -29,7 +28,7 @@ void App::run() {
 void App::showDashboard() {
     cout << "\n===========================================\n";
     cout << "       PERSONAL FINANCE MANAGER       \n";
-    cout << "============================================\n\n";
+    cout << "===========================================\n\n";
 
     cout << "Total balance: " << data.getTotalBalance() << "\n";
     cout << "Wallet balance:\n";
