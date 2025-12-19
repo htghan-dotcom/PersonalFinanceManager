@@ -145,6 +145,9 @@ int DataManager::getWalletCount() const {
 }
 
 void DataManager::showWalletBalances() const {
+    if (walletCount == 0) {
+        cout << "No wallet yet.\n";
+    }
     for (int i = 0; i < walletCount; i++) {
         cout << "* " << wallets[i].name << ": " << wallets[i].balance << endl;
     }

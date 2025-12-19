@@ -27,9 +27,9 @@ void App::run() {
 }
 
 void App::showDashboard() {
-    cout << "\n====================\n";
+    cout << "\n===========================================\n";
     cout << "       PERSONAL FINANCE MANAGER       \n";
-    cout << "======================\n\n";
+    cout << "============================================\n\n";
 
     cout << "Total balance: " << data.getTotalBalance() << "\n";
     cout << "Wallet balance:\n";
