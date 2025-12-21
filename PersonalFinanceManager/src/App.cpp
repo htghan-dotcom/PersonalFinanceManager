@@ -37,7 +37,7 @@ void App::showDashboard() {
 
     cout << "\n\n--- NAVIGATION MENU ---\n";
     cout << "1. Add Income\n";
-    cout << "2. Add expense\n";
+    cout << "2. Add Expense\n";
     cout << "3. Manage Wallets\n";
     cout << "4. Manage Sources & Categories\n";
     cout << "5. Recurring Transactions\n";
