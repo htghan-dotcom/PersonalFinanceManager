@@ -2,6 +2,7 @@
 #include <fstream>
 #include <ctime>
 #include <numeric>
+#include <iomanip>
 
 #include "DataManager.h"
 #include "Utils.h"
@@ -150,9 +151,12 @@ void DataManager::showWalletBalances() const {
         cout << "No wallet yet.\n";
     }
     for (int i = 0; i < walletCount; i++) {
-        cout << "* [" << wallets[i].ID << "] "
-            << wallets[i].name << ": " << wallets[i].balance << endl;
-    }
+            cout << " * " 
+                << left << setw(6)  << ("[" + wallets[i].ID + "]")
+                << left << setw(15) << wallets[i].name           
+                << ": " 
+                << right << setw(12) << fixed << setprecision(2) << wallets[i].balance << "\n";
+        }
 }
 
 void DataManager::applyRecurringTransactions() {
@@ -184,7 +188,7 @@ void DataManager::addRecurringTransactionUI() {
         sourceOrCategoryID = readLine("Enter Expense Category ID: ");
     }
     walletID = readLine("Enter Wallet ID: ");
-    string note = readLine("Enter Description: ");
+    string note = readLine("Enter Description (Optional): ");
 
     ::addRecurring(recurringList, recurringCount, sourceOrCategoryID, walletID, isIncome, note);
 }

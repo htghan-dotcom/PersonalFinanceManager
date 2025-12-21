@@ -127,6 +127,6 @@ double readDouble(const string& prompt) {
 string readLine(const string& prompt) {
     cout << prompt;
     string s;
-    getline(cin >> ws, s);
+    getline(cin, s);
     return s;
 }

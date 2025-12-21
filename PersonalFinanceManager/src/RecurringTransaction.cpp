@@ -180,6 +180,16 @@ void applyRecurringTransactions(
 
             addIncomeTransactionDirect(incomes, incomeCount, wallets, walletCount, t);
         } else {
+            int wIndex = findWalletIndexByID(wallets, walletCount, r.walletID);
+            if (wIndex != -1) {
+                if (wallets[wIndex].balance < r.amount) {
+                    cout << "[WARNING] Wallet '" << wallets[wIndex].name 
+                        << "' has insufficient balance for recurring transaction: " 
+                        << r.note << " (Missing: " << r.amount - wallets[wIndex].balance << ")\n";
+                    cout << "Please top up your wallet to apply this transaction later.\n";
+                    continue; 
+                }
+            }
             ExpenseTransaction t;
             t.sourceID = r.sourceOrCategoryID;
             t.walletID = r.walletID;
@@ -230,7 +240,7 @@ void addExpenseTransactionDirect(
 
     int wIndex = findWalletIndexByID(wallets, walletCount, t.walletID);
     if (wIndex != -1) {
-        wallets[wIndex].balance += t.amount;
+        wallets[wIndex].balance -= t.amount;
     }
 
     delete[] list;
