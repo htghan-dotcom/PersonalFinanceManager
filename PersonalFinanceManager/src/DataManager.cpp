@@ -182,16 +182,31 @@ void DataManager::addRecurringTransactionUI() {
     string sourceOrCategoryID;
     string walletID;
     
-    if (isIncome) {
-        sourceOrCategoryID = readLine("Enter Income Source ID: ");
-    } else {
-        sourceOrCategoryID = readLine("Enter Expense Category ID: ");
+    while (true) {
+        if (isIncome) {
+            sourceOrCategoryID = readLine("Enter Income Source ID: ");
+            if (findIncomeSourceIndexByID(incomeSources, incomeSourceCount, sourceOrCategoryID) != -1) break;
+            cout << "Error: Income Source ID not found!\n";
+        } else {
+            sourceOrCategoryID = readLine("Enter Expense Category ID: ");
+            if (findExpenseCategoryIndexByID(expenseCategories, expenseCategoryCount, sourceOrCategoryID) != -1) break;
+            cout << "Error: Expense Category ID not found!\n";
+        }
+        if (readLine("Try again? (y/n): ") == "n") return;
     }
-    walletID = readLine("Enter Wallet ID: ");
-    string note = readLine("Enter Description (Optional): ");
 
-    ::addRecurring(recurringList, recurringCount, sourceOrCategoryID, walletID, isIncome, note);
-}
+    while (true) {
+            walletID = readLine("Enter Wallet ID: ");
+            if (findWalletIndexByID(wallets, walletCount, walletID) != -1) break;
+            
+            cout << "Error: Wallet ID not found!\n";
+            if (readLine("Try again? (y/n): ") == "n") return;
+        }
+
+        string note = readLine("Enter Description (Optional): ");
+        if (note.empty()) note = "No description";
+        ::addRecurring(recurringList, recurringCount, sourceOrCategoryID, walletID, isIncome, note);
+    }
 
 void DataManager::listRecurringTransactionsUI() {
     ::listRecurring(
