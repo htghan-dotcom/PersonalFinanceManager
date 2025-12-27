@@ -38,6 +38,44 @@ bool isValidExpenseID(const string& id) {
     return true;
 }
 
+void addExpenseCategory(ExpenseCategory*& cate, int& count) {
+    cout << "\n--- ADD EXPENSE CATEGORY ---\n";
+    ExpenseCategory newCate;
+
+    cout << "PLEASE ENTER THE DETAILS OF THE NEW EXPENSE CATEGORY\n";
+
+    cout << "Enter ID (format Eabcd with a,b,c,d is a number): ";
+    cin >> newCate.id;
+
+    if (!isValidExpenseID(newCate.id)) {
+        cout << "ERROR: Invalid ID format.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    if (findExpenseCategoryIndexByID(cate, count, newCate.id) != -1) {
+        cout << "ERROR: ID already exists.\n";
+        return;
+    }
+
+    cout << "Enter category name: ";
+    getline(cin >> ws, newCate.name);
+
+    ExpenseCategory* newArr = new ExpenseCategory[count + 1];
+
+    for (int i = 0; i < count; ++i) {
+        newArr[i] = cate[i];
+    }
+    
+    newArr[count] = newCate;
+
+    delete[] cate;
+    cate = newArr;
+    ++count;
+
+    cout << "Expense category added successfully!\n";
+}
+
 void editExpenseCategory(ExpenseCategory* cate, int count) {
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
