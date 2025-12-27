@@ -38,36 +38,6 @@ bool isValidExpenseID(const string& id) {
     return true;
 }
 
-void addExpenseCategory(ExpenseCategory*& cate, int& count) {
-    ExpenseCategory c;
-
-    cout << "Enter ID(the format should be Eabcd with a,b,c,d is a number): ";
-    cin >> c.id;
-    if (!isValidExpenseID(c.id)) {
-        cout << "ERROR: Invalid ID format. Required: 'E' followed by 4 digits (e.g., E0001). Please try again.\n";
-        return;
-    }
-
-    if (findExpenseCategoryIndexByID(cate, count, c.id) != -1) {
-        cout << "ID already exists! Cannot add.\n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return;
-    }
-
-    cout << "Enter category name: ";
-    getline(cin >> std::ws, c.name);
-
-    ExpenseCategory* newArr = new ExpenseCategory[count + 1];
-    for (int i = 0; i < count; ++i) newArr[i] = cate[i];
-    newArr[count] = c;
-
-    delete[] cate;
-    cate = newArr;
-    ++count;
-
-    cout << "ExpenseCategory added successfully.\n";
-}
-
 void editExpenseCategory(ExpenseCategory* cate, int count) {
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
@@ -96,30 +66,45 @@ void deleteExpenseCategory(ExpenseCategory*& cate, int& count) {
     cout << "ExpenseCategory deleted successfully.\n";
 }
 
-void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
-    Wallet* wallets, int walletCount,
-    ExpenseCategory* sources, int CategoryCount)
+void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
+                           Wallet *wallets, int walletCount,
+                           ExpenseCategory *sources, int CategoryCount)
 {
     ExpenseTransaction t;
 
     cout << "Enter date (dd mm yyyy): ";
     cin >> t.date.day >> t.date.month >> t.date.year;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    if (!validDate(t.date))
+    {
+        cout << "Invalid date. Cancel.\n";
+        return;
+    }
 
     cout << "Enter sourceID (Expense category ID): ";
     getline(cin, t.sourceID);
-    if (findExpenseCategoryIndexByID(sources, CategoryCount, t.sourceID) == -1) {
+    if (t.sourceID.empty())
+    {
+        cout << "Empty sourceID. Cancel.\n";
+        return;
+    }
+    if (findExpenseCategoryIndexByID(sources, CategoryCount, t.sourceID) == -1)
+    {
         cout << "ExpenseCategory ID = " << t.sourceID << " not found. Cancel.\n";
         return;
     }
 
-    cout << "Enter walletID (integer): ";
+    cout << "Enter walletID (string/integer id): ";
     string walletID;
     getline(cin, walletID);
-    if (walletID.empty()) getline(cin, walletID);
+    while (walletID.empty())
+    {
 
+        getline(cin, walletID);
+    }
     int widx = findWalletIndexByID(wallets, walletCount, walletID);
-    if (widx == -1) {
+    if (widx == -1)
+    {
         cout << "Wallet ID = " << walletID << " not found. Cancel.\n";
         return;
     }
@@ -128,26 +113,38 @@ void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount,
     cout << "Enter amount (>=0): ";
     cin >> t.amount;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    if (t.amount < 0) {
+    if (t.amount < 0)
+    {
         cout << "Invalid amount. Cancel.\n";
+        return;
+    }
+
+    if (wallets[widx].balance < t.amount)
+    {
+        cout << "Insufficient wallet balance. Current balance = "
+             << wallets[widx].balance << ", amount = " << t.amount << ". Cancel.\n";
         return;
     }
 
     cout << "Enter note: ";
     getline(cin, t.note);
 
-    ExpenseTransaction* newArr = new ExpenseTransaction[transCount + 1];
-    for (int i = 0; i < transCount; ++i) newArr[i] = trans[i];
+    ExpenseTransaction *newArr = new ExpenseTransaction[transCount + 1];
+    for (int i = 0; i < transCount; ++i)
+        newArr[i] = trans[i];
     newArr[transCount] = t;
 
     delete[] trans;
     trans = newArr;
     ++transCount;
 
+    wallets[widx].balance -= t.amount;
+
     gExpTrans = trans;
     gExpTransCount = transCount;
 
-    cout << "ExpenseTransaction added successfully.\n";
+    cout << "ExpenseTransaction added successfully. Wallet " << wallets[widx].ID
+         << " new balance = " << wallets[widx].balance << "\n";
 }
 
 void printExpenseTransaction(ExpenseTransaction t) {
