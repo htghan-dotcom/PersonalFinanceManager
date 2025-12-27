@@ -123,6 +123,22 @@ void DataManager::addIncomeTransactionUI() {
     );
 }
 
+void DataManager::showIncomeHistoryUI() {
+    cout << "\n=== INCOME HISTORY ===\n";
+    if (incomeTransactionCount == 0) cout << "No transactions yet.\n";
+    
+    for (int i = 0; i < incomeTransactionCount; i++) {
+        cout << i + 1 << ". ";
+        string sourceName = getIncomeSourceName(incomeTransactions[i].sourceID);
+        string wallName = getWalletName(incomeTransactions[i].walletID);
+        
+        cout << "[" << incomeTransactions[i].date.day << "/" << incomeTransactions[i].date.month << "] "
+             << left << setw(15) << sourceName 
+             << " | Amount: " << setw(10) << incomeTransactions[i].amount
+             << " | Wallet: " << wallName << "\n";
+    }
+}
+
 void DataManager::addExpenseTransactionUI() {
     ::addExpenseTransaction(
         expenseTransactions,
@@ -132,6 +148,23 @@ void DataManager::addExpenseTransactionUI() {
         expenseCategories,
         expenseCategoryCount
     );
+}
+
+void DataManager::showExpenseHistoryUI() {
+    cout << "\n=== EXPENSE HISTORY ===\n";
+    if (expenseTransactionCount == 0) 
+        cout << "No transactions yet.\n";
+    
+    for (int i = 0; i < expenseTransactionCount; i++) {
+        cout << i + 1 << ". ";
+        string catName = getExpenseCategoryName(expenseTransactions[i].sourceID);
+        string wallName = getWalletName(expenseTransactions[i].walletID);
+        
+        cout << "[" << expenseTransactions[i].date.day << "/" << expenseTransactions[i].date.month << "] "
+             << left << setw(15) << catName 
+             << " | Amount: " << setw(10) << expenseTransactions[i].amount
+             << " | Wallet: " << wallName << "\n";
+    }
 }
 
 double DataManager::getTotalBalance() const {

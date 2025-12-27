@@ -127,7 +127,7 @@ void deleteIncomeSource(IncomeSource*& sources, int& count) {
         return;
     }
     if (count == 1) {
-        delete sources;
+        delete[] sources;
         sources = nullptr;
         count = 0;
         cout << "Deleted income source with ID(" << IDToDelete << ") successfully.\n";

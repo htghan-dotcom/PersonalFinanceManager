@@ -106,7 +106,7 @@ void App::showWalletMenu() {
 
 void App::manageCategoriesMenu() {
      while (true) {
-        cout << "\n=== MANAGE CATEGORIES & SOURCES ===\n";
+        cout << "\n=== MANAGE INCOME SOURCES & EXPENSE CATEGORIES ===\n";
         cout << "1. Add Income Source\n";
         cout << "2. Edit Income Source\n";
         cout << "3. Delete Income Source\n";

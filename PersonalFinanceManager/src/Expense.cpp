@@ -177,12 +177,11 @@ void filterExpenseByDateRange(Date from, Date to) {
     if (!found) cout << "No transactions found in the given date range.\n";
 }
 
-void filterExpenseByWallet(int walletID, Date from, Date to) {
+void filterExpenseByWallet(const string& walletID, Date from, Date to) {
     if (gExpTrans == nullptr || gExpTransCount == 0) {
         cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
     }
-    string walletIDStr = to_string(walletID);
 
     cout << "=== Expenses for walletID=" << walletID << " from "
         << from.day << "/" << from.month << "/" << from.year << " to "
@@ -190,7 +189,7 @@ void filterExpenseByWallet(int walletID, Date from, Date to) {
 
     bool found = false;
     for (int i = 0; i < gExpTransCount; ++i) {
-        if (gExpTrans[i].walletID == walletIDStr &&
+        if (gExpTrans[i].walletID == walletID &&
             isDateInRange(gExpTrans[i].date, from, to)) {
             printExpenseTransaction(gExpTrans[i]);
             found = true;

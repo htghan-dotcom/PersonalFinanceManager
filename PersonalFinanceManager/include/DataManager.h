@@ -29,7 +29,9 @@ public:
     void showExpenseCategories();
 
     void addIncomeTransactionUI();
+    void showIncomeHistoryUI();
     void addExpenseTransactionUI();
+    void showExpenseHistoryUI();
 
     void applyRecurringTransactions();
     void addRecurringTransactionUI();
