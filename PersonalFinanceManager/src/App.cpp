@@ -36,10 +36,10 @@ void App::showDashboard() {
     data.showWalletBalances();
 
     cout << "\n\n--- NAVIGATION MENU ---\n";
-    cout << "1. Add Income\n";
-    cout << "2. Add Expense\n";
+    cout << "1. Manage Income Transaction\n";
+    cout << "2. Manage Expense Transaction\n";
     cout << "3. Manage Wallets\n";
-    cout << "4. Manage Sources & Categories\n";
+    cout << "4. Manage Income Sources & Expense Categories\n";
     cout << "5. Recurring Transactions\n";
     cout << "6. Statistics\n";
     cout << "0. Exit\n";
@@ -67,17 +67,40 @@ void App::handleChoice() {
             pauseScreen();
     }
 }
-
 void App::addIncomeMenu() {
-    cout << "\n=== ADD INCOME ===\n";
-    data.addIncomeTransactionUI(); 
-    pauseScreen();
+    while (true) {
+        cout << "\n=== INCOME MANAGEMENT ===\n";
+        cout << "1. Add New Income\n";
+        cout << "2. View Income Transaction History\n";
+        cout << "0. Back\n";
+
+        int c = readInt("Choose option: ");
+        if (c == 1) {
+            data.addIncomeTransactionUI();
+            pauseScreen();
+        } else if (c == 2) {
+            data.showIncomeHistoryUI();
+            pauseScreen();
+        } else if (c == 0) break;
+    }
 }
 
 void App::addExpenseMenu() {
-    cout << "\n=== ADD EXPENSE ===\n" << endl;
-    data.addExpenseTransactionUI();
-    pauseScreen();
+    while (true) {
+        cout << "\n=== EXPENSE MANAGEMENT ===\n";
+        cout << "1. Add New Expense\n";
+        cout << "2. View Expense Transaction History\n"; 
+        cout << "0. Back\n";
+
+        int c = readInt("Choose option: ");
+        if (c == 1) {
+            data.addExpenseTransactionUI();
+            pauseScreen();
+        } else if (c == 2) {
+            data.showExpenseHistoryUI();
+            pauseScreen();
+        } else if (c == 0) break;
+    }
 }
 
 void App::showWalletMenu() {
