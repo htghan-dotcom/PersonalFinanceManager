@@ -30,4 +30,4 @@ void deleteExpenseCategory(ExpenseCategory*& cate, int& count);
 void addExpenseTransaction(ExpenseTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, ExpenseCategory* sources, int CategoryCount);
 void printExpenseTransaction(ExpenseTransaction t);
 void filterExpenseByDateRange(Date from, Date to);
-void filterExpenseByWallet(int walletID, Date from, Date to);
+void filterExpenseByWallet(const string& walletID, Date from, Date to);
