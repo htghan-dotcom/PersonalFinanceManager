@@ -2,13 +2,13 @@
 #include <string>
 #include <iomanip>
 #include <limits>
-
-#include "Income.h"
+#include "IncomeGlobals.h"
 
 using namespace std;
 
-static IncomeTransaction* g_incomeTrans = nullptr;
-static int g_incomeTransCount = 0;
+IncomeTransaction *g_incomeTrans=nullptr;
+int g_incomeTransCount=0;
+
 
 int findIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount, string id) {
     for (int i = 0; i < IncomeCount; i++) {
@@ -27,7 +27,6 @@ int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount) {
     cout << endl;
     return findIncomeSourceIndexByID(sources, IncomeCount, id);
 }
-
 
 bool isValidIncomeID(const string& id) {
     if (id.size() != 5) return false;
@@ -253,7 +252,7 @@ void filterIncomeByWallet(const string& walletID, Date from, Date to) {
         return;
     }
 
-    if (compareDate(from, to) > 0) std::swap(from, to);
+    if (compareDate(from, to) > 0) swap(from, to);
 
     int found = 0;
     for (int i = 0; i < g_incomeTransCount; ++i) {
