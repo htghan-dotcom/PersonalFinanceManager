@@ -213,7 +213,7 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
          << " new balance = " << wallets[widx].balance << "\n";
 }
 
-void printExpenseCategory(ExpenseCategory t) {
+void printExpenseTransaction(ExpenseTransaction t) {
     cout << "----------------------------------------\n";
     cout << "Date           : "; printDate(t.date); cout << "\n";
     cout << fixed << setprecision(2);
