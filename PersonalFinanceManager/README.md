@@ -99,18 +99,21 @@ FinanceManager.exe
 4. Follow on-screen instructions to add, edit, or view data.
 5. ⚠️ **Always choose `0. Exit` from the menu** to ensure all data is saved correctly before closing the program.
 
+Note: You can run this application like this video: https://www.youtube.com/watch?v=Gm2QKBP6u94&feature=youtu.be
 ---
 
 ## 6. File Structure
 
 ```text
 PersonalFinanceManager/
-├── main.cpp
 ├── src/
 ├── include/
 ├── wallets.dat
-├── income_transactions.dat
 ├── expense_transactions.dat
+├── expense_categories.dat
+├── income_sources.dat
+├── expense_transactions.dat
+├── recurring.dat
 └── README.md
 ```
 
