@@ -1,8 +1,11 @@
-
 #include <iostream>
 #include <string>
 #include <limits>
+
 #include "Wallet.h"
+#include "Income.h"
+#include "Expense.h"
+#include "RecurringTransaction.h"
 
 using namespace std;
 
@@ -55,6 +58,7 @@ void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
 
     if (findWalletIndexByID(wallets, walletCount, newWallet.ID) != -1) {
         cout << "ERROR: ID already exists. Cannot add.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -75,7 +79,10 @@ void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
 
 
 
-void editWallet(Wallet*& wallets, int walletCount) {
+void editWallet(Wallet*&wallets, int walletCount, 
+				IncomeTransaction* incomes, int incomeCount, 
+                ExpenseTransaction* expenses, int expenseCount,
+                RecurringTransaction* recurringList, int recurringCount) {
     cout << "\n---EDIT WALLET---\n";
     cout << "Please enter the wallet ID to edit: ";
     string idToEdit;
@@ -84,6 +91,7 @@ void editWallet(Wallet*& wallets, int walletCount) {
     int index = findWalletIndexByID(wallets, walletCount, idToEdit);
     if (index == -1) {
         cout << "Wallet not found for editing!\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -93,6 +101,7 @@ void editWallet(Wallet*& wallets, int walletCount) {
     for (char& c : field) c = static_cast<char>(tolower(c));
 
     if (field == "id") {
+        string oldID = wallets[index].ID;
         while (true) {
             cout << "Enter new ID (or type CANCEL to abort): ";
             string newID;
@@ -111,7 +120,23 @@ void editWallet(Wallet*& wallets, int walletCount) {
                 continue;
             }
 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             wallets[index].ID = newID;
+
+            for (int i = 0; i < incomeCount; i++) {
+                if (incomes[i].walletID == oldID) incomes[i].walletID = newID;
+            }
+
+            for(int i = 0; i < expenseCount; i++) {
+                if(expenses[i].walletID == oldID) expenses[i].walletID = newID;
+            }
+            
+            for (int i = 0; i < recurringCount; i++) {
+                if (recurringList[i].walletID == oldID) {
+                    recurringList[i].walletID = newID;
+                }
+            }
+
             cout << "\n---UPDATE SUCCESSFUL!---\n";
             return;
         }

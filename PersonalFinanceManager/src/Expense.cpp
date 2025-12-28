@@ -55,6 +55,7 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
 
     if (findExpenseCategoryIndexByID(cate, count, newCate.id) != -1) {
         cout << "ERROR: ID already exists.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -76,7 +77,9 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     cout << "Expense category added successfully!\n";
 }
 
-void editExpenseCategory(ExpenseCategory* cate, int count) {
+void editExpenseCategory(ExpenseCategory* cate, int count,
+                         ExpenseTransaction* transactions, int transCount) {
+    cout << "\n---EDIT EXPENSE CATEGORY---\n";
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
     if (idx == -1) return;
 
@@ -116,6 +119,7 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
     if (!validDate(t.date))
     {
         cout << "Invalid date. Cancel.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -124,11 +128,13 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
     if (t.sourceID.empty())
     {
         cout << "Empty sourceID. Cancel.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
     if (findExpenseCategoryIndexByID(sources, CategoryCount, t.sourceID) == -1)
     {
         cout << "ExpenseCategory ID = " << t.sourceID << " not found. Cancel.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 

@@ -59,7 +59,7 @@ void App::handleChoice() {
         case 0: {
             cout << "Saving data...\n";
             data.saveAll();
-            cout << "Exiting...\n";
+            cout << "GOODBYE!\n";
             exit(0);
         }
         default:
@@ -119,7 +119,7 @@ void App::showWalletMenu() {
             case 2: data.editWalletUI(); pauseScreen(); break;
             case 3: data.deleteWalletUI(); pauseScreen(); break;
             case 4: data.showWallets(); pauseScreen(); break;
-            case 0: cout << "Exiting!"; return;
+            case 0: return;
             default:
                 cout << "Invalid option\n";
                 pauseScreen();

@@ -23,7 +23,8 @@ int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id);
 int askAndFindExpenseCategoryIndexByID(ExpenseCategory* cate, int count);
 bool isValidExpenseID(const string& id);
 void addExpenseCategory(ExpenseCategory*& cate, int& count);
-void editExpenseCategory(ExpenseCategory* cate, int count);
+void editExpenseCategory(ExpenseCategory* cate, int count, 
+                         ExpenseTransaction* transactions, int transCount);
 void deleteExpenseCategory(ExpenseCategory*& cate, int& count);
 
 

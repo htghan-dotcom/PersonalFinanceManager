@@ -56,6 +56,7 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
 
     if (findIncomeSourceIndexByID(sources, IncomeCount, newSource.ID) != -1) {
         cout << "ERROR: ID already exists.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -77,7 +78,8 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
     cout << "Income source added successfully!\n";
 }
 
-void editIncomeSource(IncomeSource* sources, int count) {
+void editIncomeSource(IncomeSource* sources, int count,
+                      IncomeTransaction* transactions, int transCount) {
     cout << "\n---EDIT INCOME SOURCE---\n";
     string ID;
     cout << "Enter the ID of the income source to edit: ";
@@ -86,11 +88,15 @@ void editIncomeSource(IncomeSource* sources, int count) {
     index = findIncomeSourceIndexByID(sources, count, ID);
     if (index == -1) {
         cout << "Cannot find the income source to edit.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
+
     string field;
     cout << "Please enter the field to edit (ID or name): ";
     cin >> field;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     if (field == "ID") {
         cout << "Enter new ID: ";
         string newID;
@@ -101,6 +107,12 @@ void editIncomeSource(IncomeSource* sources, int count) {
             return;
         }
         sources[index].ID = newID;
+
+        for (int i = 0; i < transCount; i++) {
+            if (transactions[i].sourceID == ID) {
+                transactions[i].sourceID = newID;
+            }
+        }
     }
     else if (field == "name") {
         cout << "Enter new name: ";
@@ -124,6 +136,7 @@ void deleteIncomeSource(IncomeSource*& sources, int& count) {
     index = findIncomeSourceIndexByID(sources, count, IDToDelete);
     if (index == -1) {
         cout << "Income source not found for deletion.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
     if (count == 1) {
@@ -168,6 +181,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
     int wIdx = findWalletIndexByID(wallets, walletCount, t.walletID);
     if (wIdx == -1) {
         cout << "ERROR: Wallet ID[" << t.walletID << "] not found.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -176,6 +190,7 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
     int sIdx = findIncomeSourceIndexByID(sources, sourceCount, t.sourceID);
     if (sIdx == -1) {
         cout << "ERROR: Income Source ID[" << t.sourceID << "] not found.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
 
@@ -231,7 +246,7 @@ void filterIncomeByDateRange(Date from, Date to) {
     }
 }
 
-void filterIncomeByWallet(string walletID, Date from, Date to) {
+void filterIncomeByWallet(const string& walletID, Date from, Date to) {
     cout << "\n---FILTER INCOME TRANSACTIONS BY WALLET---\n";
     if (g_incomeTrans == nullptr || g_incomeTransCount == 0) {
         cout << "No transactions to filter.\n";

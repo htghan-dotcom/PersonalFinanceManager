@@ -24,11 +24,11 @@ int findIncomeSourceIndexByID(IncomeSource* sources, int count, string id);
 int askAndFindIncomeSourceIndexByID(IncomeSource* sources, int count);
 bool isValidIncomeID(const string& id);
 void addIncomeSource(IncomeSource*& sources, int& Incomecount);
-void editIncomeSource(IncomeSource* sources, int count);
+void editIncomeSource(IncomeSource* sources, int count, IncomeTransaction* transactions, int transCount);
 void deleteIncomeSource(IncomeSource*& sources, int& count);
 
 
 void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wallets, int walletCount, IncomeSource* sources, int sourceCount);
 void printIncomeTransaction(IncomeTransaction t);
 void filterIncomeByDateRange(Date from, Date to);
-void filterIncomeByWallet(int walletID, Date from, Date to);
+void filterIncomeByWallet(const string& walletID, Date from, Date to);

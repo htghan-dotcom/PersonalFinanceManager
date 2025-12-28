@@ -1,4 +1,6 @@
 #include <iostream>
+#include <iomanip>
+
 #include "Statistics.h"
 #include "Utils.h"
 
@@ -54,13 +56,22 @@ void Statistics::walletBreakdown(
         }
     }
 
-    cout << "\n=== BREAKDOWN FOR WALLET ===\n";
-    cout << "Wallet ID: " << walletID << endl;
-    cout << "Period: " << from.day << "/" << from.month << "/" << from.year 
-         << " TO " << to.day << "/" << to.month << "/" << to.year << "\n";
-    cout << "\nTotal Income to this Wallet: " << totalIncome << endl;
-    cout << "Total Expense from this Wallet: " << totalExpense << endl; 
-    cout << "Net Impact on Wallet: " << totalIncome - totalExpense << endl;
+    cout << "\n===========================================";
+    cout << "\n   OVERVIEW FOR WALLET: " << walletID;
+    cout << "\n   Period: " << from.day << "/" << from.month << " to " << to.day << "/" << to.month;
+    cout << "\n===========================================";
+    cout << "\nTotal Income: " << totalIncome;
+    cout << "\nTotal Expense: " << totalExpense; 
+    cout << "\nNet Impact: " << totalIncome - totalExpense;
+    cout << "\n-------------------------------------------" << endl;
+
+    cout << "\nDETAILED TRANSACTION HISTORY:" << endl;
+    
+    cout << left << setw(10) << "Date" << setw(18) << "Category/Source" << setw(12) << "Amount" << "Note" << endl;
+    cout << string(55, '-') << endl;
+
+    filterIncomeByWallet(walletID, from, to);
+    filterExpenseByWallet(walletID, from, to);
 }
 
 void Statistics::annualOverview(

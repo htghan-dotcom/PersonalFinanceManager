@@ -53,7 +53,10 @@ void DataManager::addWalletUI() {
 }
 
 void DataManager::editWalletUI() {
-    ::editWallet(wallets, walletCount);
+    ::editWallet(wallets, walletCount, 
+                 incomeTransactions, incomeTransactionCount, 
+                 expenseTransactions, expenseTransactionCount,
+                 recurringList, recurringCount);
 }
 
 void DataManager::deleteWalletUI() {
@@ -77,7 +80,7 @@ void DataManager::addIncomeSourceUI() {
 }
 
 void DataManager::editIncomeSourceUI() {
-    ::editIncomeSource(incomeSources, incomeSourceCount);
+    ::editIncomeSource(incomeSources, incomeSourceCount, incomeTransactions, incomeTransactionCount);
 }
 
 void DataManager::deleteIncomeSourceUI() {
@@ -97,7 +100,7 @@ void DataManager::addExpenseCategoryUI() {
 }
 
 void DataManager::editExpenseCategoryUI() {
-    ::editExpenseCategory(expenseCategories, expenseCategoryCount);
+    ::editExpenseCategory(expenseCategories, expenseCategoryCount, expenseTransactions, expenseTransactionCount);
 }
 
 void DataManager::deleteExpenseCategoryUI() {
@@ -272,6 +275,11 @@ void DataManager::showTimeBasedStatisticsUI() {
         expenseTransactions, expenseTransactionCount,
         from, to
     );
+    cout << "\n--- DETAILED INCOME ---" << endl;
+    filterIncomeByDateRange(from, to);
+
+    cout << "\n--- DETAILED EXPENSE ---" << endl;
+    filterExpenseByDateRange(from, to);
 }
 
 void DataManager::showWalletBreakdownStatisticsUI() {
