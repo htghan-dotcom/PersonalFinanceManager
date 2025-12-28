@@ -11,8 +11,6 @@
 #include "Expense.h"
 #include "RecurringTransaction.h"
 #include "Statistics.h"
-#include "IncomeGlobals.h"
-#include "ExpenseGlobals.h"
 
 using namespace std;
 
@@ -285,10 +283,10 @@ void DataManager::showTimeBasedStatisticsUI() {
         from, to
     );
     cout << "\n--- DETAILED INCOME ---" << endl;
-    filterIncomeByDateRange(from, to);
+    filterIncomeByDateRange(incomeTransactions, incomeTransactionCount, from, to);
 
     cout << "\n--- DETAILED EXPENSE ---" << endl;
-    filterExpenseByDateRange(from, to);
+    filterExpenseByDateRange(expenseTransactions, expenseTransactionCount, from, to);
 }
 
 void DataManager::showWalletBreakdownStatisticsUI() {

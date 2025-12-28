@@ -67,11 +67,8 @@ void Statistics::walletBreakdown(
 
     cout << "\nDETAILED TRANSACTION HISTORY:" << endl;
     
-    cout << left << setw(10) << "Date" << setw(18) << "Category/Source" << setw(12) << "Amount" << "Note" << endl;
-    cout << string(55, '-') << endl;
-
-    filterIncomeByWallet(walletID, from, to);
-    filterExpenseByWallet(walletID, from, to);
+    ::filterIncomeByWallet(incomes, incomeCount, walletID, from, to);
+    ::filterExpenseByWallet(expenses, expenseCount, walletID, from, to);
 }
 
 void Statistics::annualOverview(

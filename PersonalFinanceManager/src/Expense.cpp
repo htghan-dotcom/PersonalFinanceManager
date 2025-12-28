@@ -1,14 +1,11 @@
-
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <limits>
+
 #include "Expense.h"
 
 using namespace std;
-
-ExpenseTransaction* expenseTransactions = nullptr;
-    int expenseTransactionsCount = 0;
 
 int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
     for (int i = 0; i < count; ++i) {
@@ -98,7 +95,7 @@ void editExpenseCategory(ExpenseCategory *cate, int count,
     cout << "ExpenseCategory updated successfully.\n";
 }
 
-void deleteExpenseCategory(ExpenseCategory *&cate, int &count,ExpenseTransaction*& transactions,int transcount)
+void deleteExpenseCategory(ExpenseCategory *&cate, int &count, ExpenseTransaction*& transactions,int transcount)
 {
 
    cout << "\n---DELETE EXPENSE CATEGORY---\n";
@@ -212,9 +209,6 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
 
     wallets[widx].balance -= t.amount;
 
-    expenseTransactions = trans;
-    expenseTransactionsCount = transCount;
-
     cout << "ExpenseTransaction added successfully. Wallet " << wallets[widx].ID
          << " new balance = " << wallets[widx].balance << "\n";
 }
@@ -230,7 +224,8 @@ void printExpenseTransaction(ExpenseTransaction t) {
          << " }\n";
 }
 
-void filterExpenseByDateRange(Date from, Date to) {
+void filterExpenseByDateRange(ExpenseTransaction* expenseTransactions, int expenseTransactionsCount,
+                              Date from, Date to) {
     if (expenseTransactions == nullptr || expenseTransactionsCount== 0) {
         cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
@@ -249,7 +244,9 @@ void filterExpenseByDateRange(Date from, Date to) {
     if (!found) cout << "No transactions found in the given date range.\n";
 }
 
-void filterExpenseByWallet(const string& walletID, Date from, Date to) {
+void filterExpenseByWallet(ExpenseTransaction* expenseTransactions, int expenseTransactionsCount,
+                           const string& walletID, Date from, Date to) {
+    cout << "\n---FILTER EXPENSE TRANSACTIONS BY WALLET---\n";
     if (expenseTransactions == nullptr || expenseTransactionsCount == 0) {
         cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;

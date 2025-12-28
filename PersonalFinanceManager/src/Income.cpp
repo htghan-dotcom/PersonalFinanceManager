@@ -2,16 +2,13 @@
 #include <string>
 #include <iomanip>
 #include <limits>
-#include "IncomeGlobals.h"
+
+#include "Income.h"
 
 using namespace std;
 
-IncomeTransaction *incomeTransactions=nullptr;
-int incomeTransactionCount=0;
-
-
-int findIncomeSourceIndexByID(IncomeSource* sources, int IncomeCount, string id) {
-    for (int i = 0; i < IncomeCount; i++) {
+int findIncomeSourceIndexByID(IncomeSource* sources, int incomeCount, string id) {
+    for (int i = 0; i < incomeCount; i++) {
         if (sources[i].ID == id) {
             return i;
         }
@@ -38,7 +35,7 @@ bool isValidIncomeID(const string& id) {
 }
 
 
-int countTransactionsByIncomeSource(IncomeTransaction*& trans, int& transCount, const string& sourceID) {
+int countTransactionsByIncomeSource(IncomeTransaction* trans, int transCount, const string& sourceID) {
     int cnt = 0;
     for (int i = 0; i < transCount; ++i) {
         if (trans[i].sourceID == sourceID) ++cnt;
@@ -86,8 +83,8 @@ void addIncomeSource(IncomeSource*& sources, int& IncomeCount) {
     cout << "Income source added successfully!\n";
 }
 
-void editIncomeSource(IncomeSource*& sources, int& count,
-                      IncomeTransaction*& transactions, int& transCount) {
+void editIncomeSource(IncomeSource*& sources, int count,
+                      IncomeTransaction*& transactions, int transCount) {
     cout << "\n---EDIT INCOME SOURCE---\n";
     string ID;
     cout << "Enter the ID of the income source to edit: ";
@@ -133,7 +130,7 @@ void editIncomeSource(IncomeSource*& sources, int& count,
     cout << "\n---UPDATE SUCCESSFUL---\n";
 }
 
-void deleteIncomeSource(IncomeSource*& sources, int& count ,IncomeTransaction* transactions,int transcount) {
+void deleteIncomeSource(IncomeSource*& sources, int& count ,IncomeTransaction* transactions, int transcount) {
     cout << "\n---DELETE INCOME SOURCE---\n";
     string IDToDelete;
     cout << "Enter the ID of the income source to delete: ";
@@ -224,9 +221,6 @@ void addIncomeTransaction(IncomeTransaction*& trans, int& transCount, Wallet* wa
 
     wallets[wIdx].balance += t.amount;
 
-    incomeTransactions = trans;
-   incomeTransactionCount = transCount;
-
     cout << "Income transaction added and wallet [" << wallets[wIdx].ID << "] balance updated successfully.\n";
 }
 
@@ -241,14 +235,15 @@ void printIncomeTransaction(IncomeTransaction t) {
     cout << "----------------------------------------\n";
 }
 
-void filterIncomeByDateRange(Date from, Date to) {
-    cout << "\n---FILTER INCOME TRANSACTIONS BY DATE RANGE---\n";
+void filterIncomeByDateRange(IncomeTransaction* incomeTransactions, 
+                             int incomeTransactionCount, 
+                             Date from, Date to) {
     if (incomeTransactions == nullptr || incomeTransactionCount == 0) {
         cout << "No transactions to filter.\n";
         return;
     }
 
-    if (compareDate(from, to) > 0) std::swap(from, to);
+    if (compareDate(from, to) < 0) std::swap(from, to);
 
     int found = 0;
     for (int i = 0; i < incomeTransactionCount; ++i) {
@@ -263,14 +258,14 @@ void filterIncomeByDateRange(Date from, Date to) {
     }
 }
 
-void filterIncomeByWallet(const string& walletID, Date from, Date to) {
+void filterIncomeByWallet(IncomeTransaction* incomeTransactions, int incomeTransactionCount,const string& walletID, Date from, Date to) {
     cout << "\n---FILTER INCOME TRANSACTIONS BY WALLET---\n";
     if (incomeTransactions == nullptr || incomeTransactionCount == 0) {
         cout << "No transactions to filter.\n";
         return;
     }
 
-    if (compareDate(from, to) > 0) swap(from, to);
+    if (compareDate(from, to) < 0) swap(from, to);
 
     int found = 0;
     for (int i = 0; i < incomeTransactionCount; ++i) {
