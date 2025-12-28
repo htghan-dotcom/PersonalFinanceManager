@@ -20,6 +20,10 @@ int askAndFindWalletIndexByID(const Wallet* wallets, int walletCount);
 
 bool isValidWalletID(const string& id);
 
+int countIncomeTransactionsByWallet(IncomeTransaction* incomeTrans, int incomeTransCount,string& walletID);
+
+int countExpenseTransactionsByWallet(ExpenseTransaction* expenseTrans, int expenseTransCount,std::string& walletID);
+
 void addWallet(Wallet* & wallets, int& walletCount, Wallet NewWallet);
 
 void editWallet(Wallet*&wallets, int walletCount, 
@@ -27,6 +31,8 @@ void editWallet(Wallet*&wallets, int walletCount,
                 ExpenseTransaction* expenses, int expenseCount,
 				RecurringTransaction* recurringList, int recurringCount);
 
-void deleteWallet(Wallet*& wallets, int& walletCount);
+void deleteWallet(Wallet*& wallets, int& walletCount,
+                  IncomeTransaction* incomeTrans, int incomeTransCount,
+                  ExpenseTransaction* expenseTrans, int expenseTransCount);
 
 void updateWalletBalance(Wallet* wallets, int walletCount, string walletID, double amount);

@@ -11,6 +11,8 @@
 #include "Expense.h"
 #include "RecurringTransaction.h"
 #include "Statistics.h"
+#include "IncomeGlobals.h"
+#include "ExpenseGlobals.h"
 
 using namespace std;
 
@@ -59,9 +61,16 @@ void DataManager::editWalletUI() {
                  recurringList, recurringCount);
 }
 
+
 void DataManager::deleteWalletUI() {
-    ::deleteWallet(wallets, walletCount);
+    ::deleteWallet(wallets,
+                   walletCount,
+                   incomeTransactions,
+                   incomeTransactionCount,
+                   expenseTransactions,
+                   expenseTransactionCount);
 }
+
 
 void DataManager::showWallets() {
     cout << "\n=== WALLETS ===\n";
@@ -84,7 +93,7 @@ void DataManager::editIncomeSourceUI() {
 }
 
 void DataManager::deleteIncomeSourceUI() {
-    ::deleteIncomeSource(incomeSources, incomeSourceCount);
+    :: deleteIncomeSource( incomeSources, incomeSourceCount , incomeTransactions, incomeTransactionCount);
 }
 
 void DataManager::showIncomeSources() {
@@ -104,7 +113,7 @@ void DataManager::editExpenseCategoryUI() {
 }
 
 void DataManager::deleteExpenseCategoryUI() {
-    ::deleteExpenseCategory(expenseCategories, expenseCategoryCount);
+    :: deleteExpenseCategory(expenseCategories, expenseCategoryCount,expenseTransactions,expenseTransactionCount);
 }
 
 void DataManager::showExpenseCategories() {

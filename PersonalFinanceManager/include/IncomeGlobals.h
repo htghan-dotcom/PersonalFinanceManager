@@ -2,5 +2,5 @@
 #pragma once
 #include "Income.h"
 
-extern IncomeTransaction *g_incomeTrans;
-extern int g_incomeTransCount;
+extern IncomeTransaction *incomeTransactions;
+extern int incomeTransactionCount;

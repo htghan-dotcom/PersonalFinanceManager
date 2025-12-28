@@ -37,6 +37,29 @@ bool isValidWalletID(const string& id) {
 }
 
 
+int countIncomeTransactionsByWallet(IncomeTransaction* incomeTrans, int incomeTransCount,
+                                     string& walletID) {
+    if (incomeTrans == nullptr || incomeTransCount <= 0) return 0;
+    int cnt = 0;
+    for (int i = 0; i < incomeTransCount; ++i) {
+        if (incomeTrans[i].walletID == walletID) ++cnt;
+    }
+    return cnt;
+}
+
+
+int countExpenseTransactionsByWallet(ExpenseTransaction* expenseTrans, int expenseTransCount,
+                                      string& walletID) {
+    if (expenseTrans == nullptr || expenseTransCount <= 0) return 0;
+    int cnt = 0;
+    for (int i = 0; i < expenseTransCount; ++i) {
+        if (expenseTrans[i].walletID == walletID) ++cnt;
+    }
+    return cnt;
+}
+
+
+
 void addWallet(Wallet*& wallets, int& walletCount, Wallet newWallet) {
     cout << "\n---ADD WALLET---\n";
 
@@ -214,7 +237,11 @@ void editWallet(Wallet*&wallets, int walletCount,
 
 
 
-void deleteWallet(Wallet*& wallets, int& walletCount) {
+
+void deleteWallet(Wallet*& wallets, int& walletCount,
+                  IncomeTransaction* incomeTrans, int incomeTransCount,
+                  ExpenseTransaction* expenseTrans, int expenseTransCount)
+ {
     cout << "\n---DELETE WALLET---\n";
     cout << "Please enter the wallet ID to delete: ";
     string idToDelete;
@@ -223,6 +250,17 @@ void deleteWallet(Wallet*& wallets, int& walletCount) {
     int index = findWalletIndexByID(wallets, walletCount, idToDelete);
     if (index == -1) {
         cout << "Wallet not found for deletion!\n";
+        return;
+    }
+    
+    int incomeCnt  = countIncomeTransactionsByWallet(incomeTrans, incomeTransCount, idToDelete);
+    int expenseCnt = countExpenseTransactionsByWallet(expenseTrans, expenseTransCount, idToDelete);
+
+    if (incomeCnt > 0 || expenseCnt > 0) {
+        cout << "Cannot delete wallet [" << idToDelete << "]:\n"
+             << " - Related income transactions: " << incomeCnt << "\n"
+             << " - Related expense transactions: " << expenseCnt << "\n"
+             << "Please reassign or delete those transactions first.\n";
         return;
     }
 

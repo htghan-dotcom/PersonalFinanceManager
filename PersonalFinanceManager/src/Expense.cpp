@@ -2,13 +2,13 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <limits>    
+#include <limits>
 #include "Expense.h"
 
 using namespace std;
 
-ExpenseTransaction* gExpTrans = nullptr;
-int gExpTransCount = 0;
+ExpenseTransaction* expenseTransactions = nullptr;
+    int expenseTransactionsCount = 0;
 
 int findExpenseCategoryIndexByID(ExpenseCategory* cate, int count, string id) {
     for (int i = 0; i < count; ++i) {
@@ -38,6 +38,14 @@ bool isValidExpenseID(const string& id) {
     return true;
 }
 
+int countTransactionsByExpenseCategory(ExpenseTransaction* trans, int transCount, const string& sourceID) {
+    int cnt = 0;
+    for (int i = 0; i < transCount; ++i) {
+        if (trans[i].sourceID == sourceID) ++cnt;
+    }
+    return cnt;
+}
+
 void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     cout << "\n--- ADD EXPENSE CATEGORY ---\n";
     ExpenseCategory newCate;
@@ -60,44 +68,64 @@ void addExpenseCategory(ExpenseCategory*& cate, int& count) {
     }
 
     cout << "Enter category name: ";
-    getline(cin >> ws, newCate.name);
+    getline(cin >> std::ws, newCate.name);
 
-    ExpenseCategory* newArr = new ExpenseCategory[count + 1];
-
-    for (int i = 0; i < count; ++i) {
+    ExpenseCategory *newArr = new ExpenseCategory[count + 1];
+    for (int i = 0; i < count; ++i)
         newArr[i] = cate[i];
-    }
-    
     newArr[count] = newCate;
 
     delete[] cate;
     cate = newArr;
     ++count;
 
-    cout << "Expense category added successfully!\n";
+    cout << "ExpenseCategory added successfully.\n";
 }
 
-void editExpenseCategory(ExpenseCategory* cate, int count,
-                         ExpenseTransaction* transactions, int transCount) {
-    cout << "\n---EDIT EXPENSE CATEGORY---\n";
+void editExpenseCategory(ExpenseCategory *cate, int count,
+                         ExpenseTransaction *transactions, int transCount)
+{
     int idx = askAndFindExpenseSourceIndexByID(cate, count);
-    if (idx == -1) return;
+    if (idx == -1)
+        return;
 
     cout << "Current name: " << cate[idx].name << "\nEnter new name: ";
     string name;
     getline(cin, name);
-    if (!name.empty()) cate[idx].name = name;
+    if (!name.empty())
+        cate[idx].name = name;
 
     cout << "ExpenseCategory updated successfully.\n";
 }
 
-void deleteExpenseCategory(ExpenseCategory*& cate, int& count) {
-    int idx = askAndFindExpenseSourceIndexByID(cate, count);
-    if (idx == -1) return;
+void deleteExpenseCategory(ExpenseCategory *&cate, int &count,ExpenseTransaction*& transactions,int transcount)
+{
 
-    ExpenseCategory* newArr = new ExpenseCategory[count - 1];
-    for (int i = 0, j = 0; i < count; ++i) {
-        if (i == idx) continue;
+   cout << "\n---DELETE EXPENSE CATEGORY---\n";
+    string IDToDelete;
+    cout << "Enter the ID of the expense category to delete: ";
+    cin >> IDToDelete;
+    cout << endl;
+    int index = -1;
+    index = findExpenseCategoryIndexByID(cate, count, IDToDelete);
+    if (index == -1) {
+        cout << "Expense Category not found for deletion.\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    int related = countTransactionsByExpenseCategory(transactions, transcount, IDToDelete);
+    if (related > 0) {
+        cout << "Cannot delete: there are " << related
+             << " income transactions referencing this source.\n"
+             << "Please reassign or delete those transactions first.\n";
+        return;
+    }
+
+    ExpenseCategory *newArr = new ExpenseCategory[count - 1];
+    for (int i = 0, j = 0; i < count; ++i)
+    {
+        if (i == index)
+            continue;
         newArr[j++] = cate[i];
     }
     delete[] cate;
@@ -184,8 +212,8 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
 
     wallets[widx].balance -= t.amount;
 
-    gExpTrans = trans;
-    gExpTransCount = transCount;
+    expenseTransactions = trans;
+    expenseTransactionsCount = transCount;
 
     cout << "ExpenseTransaction added successfully. Wallet " << wallets[widx].ID
          << " new balance = " << wallets[widx].balance << "\n";
@@ -193,28 +221,28 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
 
 void printExpenseTransaction(ExpenseTransaction t) {
     cout << "ExpenseTransaction {"
-        << ", date=";
-        printDate(t.date);
-        cout << ", sourceID=" << t.sourceID
-        << ", walletID=" << t.walletID
-        << ", amount=" << fixed << setprecision(2) << t.amount
-        << ", note=" << t.note
-        << " }\n";
+         << ", date=";
+    printDate(t.date);
+    cout << ", sourceID=" << t.sourceID
+         << ", walletID=" << t.walletID
+         << ", amount=" << fixed << setprecision(2) << t.amount
+         << ", note=" << t.note
+         << " }\n";
 }
 
 void filterExpenseByDateRange(Date from, Date to) {
-    if (gExpTrans == nullptr || gExpTransCount == 0) {
+    if (expenseTransactions == nullptr || expenseTransactionsCount== 0) {
         cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
     }
     cout << "=== Expenses from "
-        << from.day << "/" << from.month << "/" << from.year << " to "
-        << to.day << "/" << to.month << "/" << to.year << " ===\n";
+         << from.day << "/" << from.month << "/" << from.year << " to "
+         << to.day << "/" << to.month << "/" << to.year << " ===\n";
 
     bool found = false;
-    for (int i = 0; i < gExpTransCount; ++i) {
-        if (isDateInRange(gExpTrans[i].date, from, to)) {
-            printExpenseTransaction(gExpTrans[i]);
+    for (int i = 0; i < expenseTransactionsCount; ++i) {
+        if (isDateInRange(expenseTransactions[i].date, from, to)) {
+            printExpenseTransaction(expenseTransactions[i]);
             found = true;
         }
     }
@@ -222,20 +250,20 @@ void filterExpenseByDateRange(Date from, Date to) {
 }
 
 void filterExpenseByWallet(const string& walletID, Date from, Date to) {
-    if (gExpTrans == nullptr || gExpTransCount == 0) {
+    if (expenseTransactions == nullptr || expenseTransactionsCount == 0) {
         cout << "No ExpenseTransaction data (gExpTrans is empty).\n";
         return;
     }
 
     cout << "=== Expenses for walletID=" << walletID << " from "
-        << from.day << "/" << from.month << "/" << from.year << " to "
-        << to.day << "/" << to.month << "/" << to.year << " ===\n";
+         << from.day << "/" << from.month << "/" << from.year << " to "
+         << to.day << "/" << to.month << "/" << to.year << " ===\n";
 
     bool found = false;
-    for (int i = 0; i < gExpTransCount; ++i) {
-        if (gExpTrans[i].walletID == walletID &&
-            isDateInRange(gExpTrans[i].date, from, to)) {
-            printExpenseTransaction(gExpTrans[i]);
+    for (int i = 0; i < expenseTransactionsCount; ++i) {
+        if (expenseTransactions[i].walletID == walletID &&
+            isDateInRange(expenseTransactions[i].date, from, to)) {
+            printExpenseTransaction(expenseTransactions[i]);
             found = true;
         }
     }

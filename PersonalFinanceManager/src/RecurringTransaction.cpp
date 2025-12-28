@@ -4,8 +4,8 @@
 #include "Utils.h"
 #include "RecurringTransaction.h"
 #include "Wallet.h"
-#include "Income.h"
-#include "Expense.h"
+#include "IncomeGlobals.h"
+#include "ExpenseGlobals.h"
 
 using namespace std;
 
