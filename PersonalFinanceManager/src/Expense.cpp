@@ -213,15 +213,15 @@ void addExpenseTransaction(ExpenseTransaction *&trans, int &transCount,
          << " new balance = " << wallets[widx].balance << "\n";
 }
 
-void printExpenseTransaction(ExpenseTransaction t) {
-    cout << "ExpenseTransaction {"
-         << ", date=";
-    printDate(t.date);
-    cout << ", sourceID=" << t.sourceID
-         << ", walletID=" << t.walletID
-         << ", amount=" << fixed << setprecision(2) << t.amount
-         << ", note=" << t.note
-         << " }\n";
+void printExpenseCategory(ExpenseCategory t) {
+    cout << "----------------------------------------\n";
+    cout << "Date           : "; printDate(t.date); cout << "\n";
+    cout << fixed << setprecision(2);
+    cout << "Amount         : -" << t.amount << "\n";
+    cout << "Wallet         : " << t.walletID << "\n";
+    cout << "Source         : " << t.sourceID << "\n";
+    if (!t.note.empty()) cout << "Note           : " << t.note << "\n";
+    cout << "----------------------------------------\n";
 }
 
 void filterExpenseByDateRange(ExpenseTransaction* expenseTransactions, int expenseTransactionsCount,
