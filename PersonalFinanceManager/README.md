@@ -97,7 +97,7 @@ FinanceManager.exe
    * Individual wallet balances
 3. Use numeric menu options (`0–6`) to navigate between features.
 4. Follow on-screen instructions to add, edit, or view data.
-5. ⚠️ **Always choose `0. Exit` from the menu** to ensure all data is saved correctly before closing the program.
+5. **Always choose `0. Exit` from the menu** to ensure all data is saved correctly before closing the program.
 
 Note: You can run this application like this video: https://www.youtube.com/watch?v=Gm2QKBP6u94&feature=youtu.be
 ---
